@@ -1,0 +1,40 @@
+# Environment files (sensitive)
+.env
+.env.*
+.envrc
+.python-version
+
+# Django
+db.sqlite3
+*.sqlite3
+migrations/**/__pycache__/
+staticfiles/
+media/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Testing/coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+
+# IDE/Editor
+.idea/
+.vscode/
+
+# OS/Misc
+.DS_Store
+Thumbs.db
