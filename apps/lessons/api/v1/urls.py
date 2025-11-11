@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import LessonViewSet, ingest_text, ingest_srt
+from .views import LessonViewSet, ingest_text, ingest_srt, sentence_translation
 
 
 router = DefaultRouter()
@@ -14,5 +14,6 @@ urlpatterns = [
     path("lessons/ingest/", ingest_text, name="ingest-text"),
     path("lessons/ingest-srt/", ingest_srt, name="ingest-srt"),
     path("lessons/<uuid:pk>/audio-url/", lesson_audio_url, name="lesson-audio-url"),
+    path("sentences/<int:sentence_id>/translation/", sentence_translation, name="sentence-translation"),
     path("", include(router.urls)),
 ]

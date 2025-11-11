@@ -24,3 +24,16 @@ class LemmaProgressSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
 
+
+class LemmaSeenByCharactersQuerySerializer(serializers.Serializer):
+    word = serializers.CharField(max_length=64, allow_blank=True, required=False)
+    lemma = serializers.PrimaryKeyRelatedField(queryset=Lemma.objects.all(), required=False)
+
+    def validate(self, attrs):
+        word = attrs.get("word") or ""
+        lemma = attrs.get("lemma")
+        cleaned = word.strip()
+        if not cleaned and lemma is None:
+            raise serializers.ValidationError("Provide either a word or a lemma id.")
+        attrs["word"] = cleaned
+        return attrs

@@ -3,6 +3,14 @@ from apps.lessons.models import Lesson, SourceText, Sentence, SentenceTranslatio
 
 
 class SentenceTokenSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        # Optionally include user's lemma familiarity if provided in context
+        mapping = self.context.get("lemma_familiarity_map")
+        if mapping and instance.lemma_id in mapping:
+            data["familiarity"] = mapping[instance.lemma_id]
+        return data
+
     class Meta:
         model = SentenceToken
         fields = ["id", "index", "text", "kind", "lemma"]
@@ -76,6 +84,7 @@ class IngestSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255, required=False, allow_blank=True, default="")
     source_language = serializers.CharField(max_length=16, required=False, default="zh")
     target_language = serializers.CharField(max_length=16, required=False, default="en")
+    translate = serializers.BooleanField(required=False, default=False)
 
 
 class IngestSrtSerializer(serializers.Serializer):
@@ -85,3 +94,4 @@ class IngestSrtSerializer(serializers.Serializer):
     source_language = serializers.CharField(max_length=16, required=False, default="zh")
     target_language = serializers.CharField(max_length=16, required=False, default="en")
     audio_url = serializers.URLField(required=False, allow_blank=True, default="")
+    translate = serializers.BooleanField(required=False, default=False)
