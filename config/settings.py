@@ -29,6 +29,11 @@ elif ENVIRONMENT == 'production':
 
 DEFAULT_API_VERSION = os.getenv('DEFAULT_API_VERSION', 'v1')
 REFRESH_TOKEN_COOKIE_SECURE = os.getenv('REFRESH_TOKEN_COOKIE_SECURE', 'true').lower() in ('true', '1', 'yes', 'on')
+LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'openai')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_DEFAULT_MODEL = os.getenv('OPENAI_DEFAULT_MODEL', 'gpt-4o')
+OPENAI_API_BASE = os.getenv('OPENAI_API_BASE', 'https://api.openai.com/v1')
+LLM_TIMEOUT = int(os.getenv('LLM_TIMEOUT', '30'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/

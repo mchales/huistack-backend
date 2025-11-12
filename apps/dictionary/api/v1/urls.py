@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import LemmaViewSet, SenseViewSet, get_routes
+from .views import LemmaViewSet, SenseViewSet, get_routes, lemma_examples
 
 
 router = DefaultRouter()
@@ -11,5 +11,5 @@ router.register(r'dictionary/senses', SenseViewSet, basename='sense')
 urlpatterns = [
     path('', include(router.urls)),
     path('dictionary/routes/', get_routes, name='routes'),
+    path('dictionary/lemmas/<int:lemma_id>/examples/', lemma_examples, name='lemma-examples'),
 ]
-
