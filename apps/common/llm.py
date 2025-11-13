@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import List, Mapping, Sequence, Union
+from typing import Any, List, Mapping, Sequence, Union, Optional
 
-import requests
 from django.conf import settings
+from openai import OpenAI  # <- new SDK import
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,27 @@ class LLMResponse:
 MessageInput = Union[ChatMessage, Mapping[str, str]]
 
 
+def _safe_model_dump(obj: Any) -> Mapping[str, object]:
+    """
+    Best-effort conversion of an OpenAI SDK object into a plain mapping
+    for storage in LLMResponse.raw.
+    """
+    try:
+        # OpenAI SDK responses are Pydantic models with model_dump()
+        if hasattr(obj, "model_dump"):
+            dumped = obj.model_dump()  # type: ignore[call-arg]
+            if isinstance(dumped, Mapping):
+                return dumped  # type: ignore[return-value]
+    except Exception:  # pragma: no cover - defensive
+        pass
+
+    if isinstance(obj, Mapping):
+        return obj  # type: ignore[return-value]
+
+    # Fallback: wrap in a dict so we still satisfy the Mapping type
+    return {"response": obj}  # type: ignore[return-value]
+
+
 class LLMClient:
     """Simple LLM-agnostic chat client with OpenAI as the default provider."""
 
@@ -64,12 +85,15 @@ class LLMClient:
         self.model = model or getattr(settings, "OPENAI_DEFAULT_MODEL", "gpt-4o")
         self.timeout = timeout or int(getattr(settings, "LLM_TIMEOUT", 30))
         self._api_key = api_key or getattr(settings, "OPENAI_API_KEY", None)
+        # For OpenAI's Python SDK this becomes base_url
         self._api_base = getattr(settings, "OPENAI_API_BASE", "https://api.openai.com/v1")
 
     def chat(self, messages: Sequence[MessageInput], **options) -> LLMResponse:
         normalized = self._normalize_messages(messages)
+
         if self.provider == "openai":
             return self._chat_openai(normalized, **options)
+
         raise LLMProviderNotSupported(f"LLM provider '{self.provider}' is not supported yet.")
 
     def _normalize_messages(self, messages: Sequence[MessageInput]) -> List[dict[str, str]]:
@@ -90,57 +114,108 @@ class LLMClient:
         return normalized
 
     def _chat_openai(self, messages: Sequence[Mapping[str, str]], **options) -> LLMResponse:
-        api_key = options.pop("api_key", None) or self._api_key
+        """
+        OpenAI implementation using the official Python SDK.
+
+        - If `text_format` is provided, uses `client.responses.parse` for structured outputs.
+        - Otherwise, uses `client.chat.completions.create` for normal chat responses.
+        """
+        api_key: Optional[str] = options.pop("api_key", None) or self._api_key
         if not api_key:
             raise LLMConfigurationError("OpenAI API key is not configured.")
 
         model = options.pop("model", None) or self.model
-        payload: dict[str, object] = {"model": model, "messages": list(messages)}
 
-        temperature = options.pop("temperature", 0.2)
-        if temperature is not None:
-            payload["temperature"] = temperature
+        # Common options
+        temperature = options.pop("temperature", 0.1)
+        max_tokens = options.pop("max_tokens", 1024)
 
-        max_tokens = options.pop("max_tokens", 256)
-        if max_tokens is not None:
-            payload["max_tokens"] = max_tokens
+        response_format = options.pop("response_format", None)
+        text_format = options.pop("text_format", None)
+        if text_format is not None and response_format is not None:
+            raise LLMConfigurationError("Provide either 'text_format' or 'response_format', not both.")
 
-        if options:
-            payload.update(options)
+        # Instantiate SDK client with configured base URL and timeout
+        client = OpenAI(
+            api_key=api_key,
+            base_url=self._api_base,
+            timeout=self.timeout,
+        )
 
-        endpoint = f"{self._api_base.rstrip('/')}/chat/completions"
-        try:
-            response = requests.post(
-                endpoint,
-                headers={
-                    "Authorization": f"Bearer {api_key}",
-                    "Content-Type": "application/json",
-                },
-                json=payload,
-                timeout=self.timeout,
-            )
-        except requests.RequestException as exc:
-            raise LLMRequestError("Unable to reach the OpenAI API.") from exc
-
-        if response.status_code >= 400:
+        # ---- Structured output path (responses.parse) ----
+        if text_format is not None:
             try:
-                detail = response.json()
-            except ValueError:
-                detail = response.text
-            logger.warning("OpenAI chat error %s: %s", response.status_code, detail)
-            raise LLMRequestError("OpenAI chat request failed.", response.status_code, detail)
+                kwargs: dict[str, Any] = {}
+                if temperature is not None:
+                    kwargs["temperature"] = temperature
+                if max_tokens is not None:
+                    # responses.* uses max_output_tokens instead of max_tokens
+                    kwargs["max_output_tokens"] = max_tokens
 
+                # Any other extra options go straight through
+                if options:
+                    kwargs.update(options)
+
+                resp = client.responses.parse(
+                    model=model,
+                    input=list(messages),
+                    text_format=text_format,
+                    **kwargs,
+                )
+            except Exception as exc:
+                logger.warning("OpenAI structured chat error: %s", exc, exc_info=True)
+                raise LLMRequestError("OpenAI structured chat request failed.", payload=str(exc)) from exc
+
+            # Prefer output_text if available; fall back gracefully
+            content: str
+            try:
+                content = getattr(resp, "output_text")
+                if not isinstance(content, str):
+                    content = str(content)
+            except Exception:
+                # Fallback: try to dig into the underlying response
+                try:
+                    # This is defensive; shape may change with SDK versions
+                    first_output = resp.output[0]  # type: ignore[index]
+                    first_content_item = first_output.content[0]  # type: ignore[index]
+                    content = getattr(first_content_item, "text", "")
+                    if not isinstance(content, str):
+                        content = str(content)
+                except Exception:
+                    content = ""
+
+            raw = _safe_model_dump(resp)
+            return LLMResponse(content=content.strip(), raw=raw)
+
+        # ---- Plain chat path (chat.completions.create) ----
         try:
-            data = response.json()
-        except ValueError as exc:
-            raise LLMRequestError("OpenAI response could not be decoded as JSON.") from exc
+            kwargs = {}
+            if temperature is not None:
+                kwargs["temperature"] = temperature
+            if max_tokens is not None:
+                kwargs["max_tokens"] = max_tokens
+            if response_format is not None:
+                kwargs["response_format"] = response_format
+            if options:
+                kwargs.update(options)
 
+            resp = client.chat.completions.create(
+                model=model,
+                messages=list(messages),
+                **kwargs,
+            )
+        except Exception as exc:
+            logger.warning("OpenAI chat error: %s", exc, exc_info=True)
+            raise LLMRequestError("OpenAI chat request failed.", payload=str(exc)) from exc
+
+        # Extract content from the first choice
         try:
-            content = data["choices"][0]["message"]["content"]
-        except (KeyError, IndexError) as exc:
-            raise LLMRequestError("OpenAI response did not contain any choices.", payload=data) from exc
+            content = resp.choices[0].message.content or ""
+        except Exception as exc:
+            raise LLMRequestError("OpenAI response did not contain any choices.", payload=_safe_model_dump(resp)) from exc
 
-        return LLMResponse(content=content.strip(), raw=data)
+        raw = _safe_model_dump(resp)
+        return LLMResponse(content=content.strip(), raw=raw)
 
 
 def get_llm_client(**kwargs) -> LLMClient:

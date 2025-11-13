@@ -10,12 +10,19 @@ from rest_framework.response import Response
 from apps.common.llm import ChatMessage, LLMClient, LLMError
 from apps.dictionary.models import Lemma, Sense
 from .serializers import LemmaSerializer, SenseSerializer
-
+from pydantic import BaseModel, ValidationError
+from typing import List
 
 _SENTENCE_TARGET = 3
 _LINE_PREFIX = re.compile(r"^[\s\-\*\d\.\)\(]+")
 llm_client = LLMClient()
 
+class SentencePair(BaseModel):
+    chinese: str
+    english: str
+
+class ExampleSentences(BaseModel):
+    sentences: List[SentencePair]
 
 class LemmaViewSet(viewsets.ModelViewSet):
     queryset = Lemma.objects.all()
@@ -55,15 +62,16 @@ def lemma_examples(request, lemma_id: int):
     lemma = get_object_or_404(Lemma, pk=lemma_id)
     prompt = _build_prompt(lemma)
     messages = [
-        ChatMessage(role="system", content="Concise Chinese tutor. Output CN only."),
+        ChatMessage(role="system", content="Concise Chinese tutor. Respond in JSON matching the given schema."),
         ChatMessage(role="user", content=prompt),
     ]
 
     try:
-        llm_response = llm_client.chat(messages, max_tokens=192)
+        llm_response = llm_client.chat(messages, text_format=ExampleSentences)
     except LLMError as exc:
         return Response({"detail": str(exc)}, status=status.HTTP_502_BAD_GATEWAY)
 
+    # Now this returns a list of {chinese, english} dicts
     sentences = _extract_sentences(llm_response.content)
     if len(sentences) < _SENTENCE_TARGET:
         return Response(
@@ -77,43 +85,90 @@ def lemma_examples(request, lemma_id: int):
             "simplified": lemma.simplified,
             "traditional": lemma.traditional,
             "pinyin_numbers": lemma.pinyin_numbers,
-            "sentences": sentences[:_SENTENCE_TARGET],
+            "sentences": sentences[:_SENTENCE_TARGET],  # list of {chinese, english}
         }
     )
 
 
 def _build_prompt(lemma: Lemma) -> str:
     return (
-        f"{lemma.simplified}"
-        "→ give 3 short simple Chinese sentences using it. Reply JSON array only."
+        f"{lemma.simplified} → give 3 Chinese sentences of increasing complexity with english translations."
     )
 
 
-def _extract_sentences(raw_text: str) -> List[str]:
+def _extract_sentences(raw_text: str) -> List[dict]:
+    """
+    Extract up to _SENTENCE_TARGET Chinese/English pairs.
+
+    Expected primary format (from ExampleSentences model):
+    {
+      "sentences": [
+        {"chinese": "...", "english": "..."},
+        ...
+      ]
+    }
+    """
     text = raw_text.strip()
     if not text:
         return []
 
-    sentences: List[str] = []
+    pairs: List[dict] = []
+
+    # 1) Preferred path: use Pydantic ExampleSentences
     try:
-        parsed = json.loads(text)
-    except json.JSONDecodeError:
-        parsed = None
+        parsed = ExampleSentences.model_validate_json(text)
+        for sp in parsed.sentences:
+            chinese = sp.chinese.strip()
+            english = sp.english.strip()
+            if chinese:
+                pairs.append({"chinese": chinese, "english": english})
+    except ValidationError:
+        # 2) Fallback: manual JSON or line-based parsing
+        try:
+            parsed_json = json.loads(text)
+        except json.JSONDecodeError:
+            parsed_json = None
 
-    if isinstance(parsed, list):
-        sentences = [str(item).strip() for item in parsed if str(item).strip()]
-    else:
-        for line in text.splitlines():
-            cleaned = _LINE_PREFIX.sub("", line).strip()
-            if cleaned:
-                sentences.append(cleaned)
+        if isinstance(parsed_json, dict) and "sentences" in parsed_json:
+            # e.g. {"sentences": [{"chinese": "...", "english": "..."}, ...]}
+            for item in parsed_json.get("sentences", []):
+                if isinstance(item, dict):
+                    chinese = str(item.get("chinese", "")).strip()
+                    english = str(item.get("english", "")).strip()
+                    if chinese:
+                        pairs.append({"chinese": chinese, "english": english})
+        elif isinstance(parsed_json, list):
+            # e.g. [["CN", "EN"], ...] or ["CN only", ...]
+            for item in parsed_json:
+                if isinstance(item, dict):
+                    chinese = str(item.get("chinese", "")).strip()
+                    english = str(item.get("english", "")).strip()
+                elif isinstance(item, (list, tuple)) and len(item) >= 2:
+                    chinese = str(item[0]).strip()
+                    english = str(item[1]).strip()
+                else:
+                    chinese = str(item).strip()
+                    english = ""
 
-    deduped: List[str] = []
-    seen = set()
-    for sentence in sentences:
-        if sentence and sentence not in seen:
-            deduped.append(sentence)
-            seen.add(sentence)
+                if chinese:
+                    pairs.append({"chinese": chinese, "english": english})
+        else:
+            # Very last resort: line-based parsing (Chinese only, no EN)
+            for line in text.splitlines():
+                cleaned = _LINE_PREFIX.sub("", line).strip()
+                if cleaned:
+                    pairs.append({"chinese": cleaned, "english": ""})
+
+    # Deduplicate by Chinese sentence and limit to _SENTENCE_TARGET
+    deduped: List[dict] = []
+    seen_cn = set()
+    for pair in pairs:
+        cn = pair.get("chinese")
+        if not cn or cn in seen_cn:
+            continue
+        seen_cn.add(cn)
+        deduped.append(pair)
         if len(deduped) == _SENTENCE_TARGET:
             break
+
     return deduped
