@@ -17,6 +17,7 @@ class LemmaProgress(models.Model):
         Lemma, on_delete=models.CASCADE, related_name="user_progress"
     )
     familiarity = models.PositiveSmallIntegerField(default=1)
+    ignore = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -9,6 +9,11 @@ class SentenceTokenSerializer(serializers.ModelSerializer):
         mapping = self.context.get("lemma_familiarity_map")
         if mapping and instance.lemma_id in mapping:
             data["familiarity"] = mapping[instance.lemma_id]
+        # Include pinyin (tone numbers) when lemma is available
+        if instance.lemma_id and getattr(instance.lemma, "pinyin_numbers", None):
+            data["pinyin"] = instance.lemma.pinyin_numbers
+        else:
+            data["pinyin"] = None
         return data
 
     class Meta:
