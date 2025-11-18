@@ -2,21 +2,32 @@ from typing import List
 
 from django.core.exceptions import ImproperlyConfigured
 from django.db import transaction
-from rest_framework import status, viewsets
-from rest_framework.decorators import api_view, permission_classes, action
+from rest_framework import mixins, status, viewsets
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from apps.dictionary.models import Lemma
 from apps.progress.models import LemmaProgress
-from apps.lessons.models import Lesson, SourceText, Sentence, SentenceToken, SentenceTranslation
-from apps.lessons.utils import split_sentences, tokenize, translate_text, parse_srt
-from apps.lessons.services import generate_lesson_audio_presigned_url, LessonAudioError
+from apps.lessons.models import (
+    Lesson,
+    LessonVideoJob,
+    SourceText,
+    Sentence,
+    SentenceToken,
+    SentenceTranslation,
+)
+from apps.lessons.services import LessonAudioError, generate_lesson_audio_presigned_url
+from apps.lessons.utils import parse_srt, split_sentences, tokenize, translate_text
+from apps.lessons.video_jobs import create_lesson_video_job
 from .serializers import (
     IngestSerializer,
     IngestSrtSerializer,
     LessonSerializer,
     LessonSummarySerializer,
+    LessonVideoJobSerializer,
+    LessonVideoJobCreateSerializer,
 )
 
 
@@ -74,6 +85,27 @@ class LessonViewSet(viewsets.ReadOnlyModelViewSet):
         )
         serializer = LessonSummarySerializer(lessons, many=True)
         return Response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=["post"],
+        permission_classes=[IsAuthenticated],
+        parser_classes=[MultiPartParser, FormParser],
+        url_path="upload-video",
+    )
+    def upload_video(self, request, pk=None):
+        lesson = self.get_object()
+        if lesson.created_by_id and lesson.created_by_id != request.user.id and not request.user.is_staff:
+            return Response(
+                {"detail": "You do not have permission to upload a video for this lesson."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        video_file = request.data.get("video")
+        if not video_file:
+            return Response({"detail": "A video file is required."}, status=status.HTTP_400_BAD_REQUEST)
+        video_job = create_lesson_video_job(lesson=lesson, uploaded_file=video_file, user=request.user)
+        serializer = LessonVideoJobSerializer(video_job, context=self.get_serializer_context())
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["POST"])
@@ -262,14 +294,23 @@ def ingest_srt(request):
                         source="machine",
                     )
 
-    return Response(
-        {
-            "lesson": LessonSerializer(lesson).data,
-            "created": True,
-            "sentence_count": lesson.sentences.count(),
-            "missing_characters": sorted(list(missing_characters)),
-        }
-    )
+    response_payload = {
+        "lesson": LessonSerializer(lesson).data,
+        "created": True,
+        "sentence_count": lesson.sentences.count(),
+        "missing_characters": sorted(list(missing_characters)),
+    }
+
+    video_file = data.get("video")
+    if video_file:
+        video_job = create_lesson_video_job(
+            lesson=lesson,
+            uploaded_file=video_file,
+            user=request.user if hasattr(request, "user") else None,
+        )
+        response_payload["video_job"] = LessonVideoJobSerializer(video_job).data
+
+    return Response(response_payload)
 
 
 @api_view(["GET"])
@@ -324,3 +365,29 @@ def sentence_translation(request, sentence_id: int):
             "source": preferred.source,
         }
     )
+
+
+class LessonVideoJobViewSet(
+    mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+):
+    queryset = LessonVideoJob.objects.select_related("lesson").all()
+    serializer_class = LessonVideoJobSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        lesson_id = self.request.query_params.get("lesson_id")
+        if lesson_id:
+            qs = qs.filter(lesson_id=lesson_id)
+        return qs
+
+    def create(self, request, *args, **kwargs):
+        input_serializer = LessonVideoJobCreateSerializer(
+            data=request.data, context=self.get_serializer_context()
+        )
+        input_serializer.is_valid(raise_exception=True)
+        job = input_serializer.save()
+        output_serializer = self.get_serializer(job)
+        headers = self.get_success_headers(output_serializer.data)
+        return Response(output_serializer.data, status=status.HTTP_201_CREATED, headers=headers)

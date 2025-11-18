@@ -1,5 +1,13 @@
 from rest_framework import serializers
-from apps.lessons.models import Lesson, SourceText, Sentence, SentenceTranslation, SentenceToken
+from apps.lessons.models import (
+    Lesson,
+    LessonVideoJob,
+    SourceText,
+    Sentence,
+    SentenceTranslation,
+    SentenceToken,
+)
+from apps.lessons.video_jobs import create_lesson_video_job
 
 
 class SentenceTokenSerializer(serializers.ModelSerializer):
@@ -32,6 +40,7 @@ class SentenceTranslationSerializer(serializers.ModelSerializer):
 class SentenceSerializer(serializers.ModelSerializer):
     tokens = SentenceTokenSerializer(many=True, read_only=True)
     translations = SentenceTranslationSerializer(many=True, read_only=True)
+    frame_image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Sentence
@@ -43,10 +52,19 @@ class SentenceSerializer(serializers.ModelSerializer):
             "end_char",
             "start_ms",
             "end_ms",
+            "frame_image_url",
             "tokens",
             "translations",
         ]
-        read_only_fields = ["id", "tokens", "translations"]
+        read_only_fields = ["id", "tokens", "translations", "frame_image_url"]
+
+    def get_frame_image_url(self, obj: Sentence):
+        if obj.frame_image:
+            try:
+                return obj.frame_image.url
+            except ValueError:
+                return None
+        return None
 
 
 class SourceTextSerializer(serializers.ModelSerializer):
@@ -100,3 +118,69 @@ class IngestSrtSerializer(serializers.Serializer):
     target_language = serializers.CharField(max_length=16, required=False, default="en")
     audio_url = serializers.URLField(required=False, allow_blank=True, default="")
     translate = serializers.BooleanField(required=False, default=False)
+    video = serializers.FileField(required=False, allow_null=True)
+
+    def validate_video(self, value):
+        if value is None:
+            return None
+        filename = value.name.lower()
+        allowed = (".mp4", ".mov", ".mkv", ".avi")
+        if not filename.endswith(allowed):
+            raise serializers.ValidationError("Unsupported video type. Use MP4/MOV/MKV/AVI files.")
+        value.seek(0)
+        return value
+
+
+class LessonVideoJobSerializer(serializers.ModelSerializer):
+    video_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = LessonVideoJob
+        fields = [
+            "id",
+            "lesson",
+            "status",
+            "error_message",
+            "total_frames",
+            "processed_frames",
+            "created_at",
+            "updated_at",
+            "started_at",
+            "completed_at",
+            "video_url",
+        ]
+        read_only_fields = fields
+
+    def get_video_url(self, obj: LessonVideoJob):
+        if obj.video_file:
+            try:
+                return obj.video_file.url
+            except ValueError:
+                return None
+        return None
+
+
+class LessonVideoJobCreateSerializer(serializers.Serializer):
+    lesson_id = serializers.UUIDField()
+    video = serializers.FileField()
+
+    def validate_lesson_id(self, value):
+        try:
+            return Lesson.objects.get(id=value)
+        except Lesson.DoesNotExist:
+            raise serializers.ValidationError("Lesson not found.")
+
+    def validate_video(self, value):
+        filename = value.name.lower()
+        allowed = (".mp4", ".mov", ".mkv", ".avi")
+        if not filename.endswith(allowed):
+            raise serializers.ValidationError("Unsupported video type. Use MP4/MOV/MKV/AVI files.")
+        value.seek(0)
+        return value
+
+    def create(self, validated_data):
+        lesson = validated_data["lesson_id"]
+        video = validated_data["video"]
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        return create_lesson_video_job(lesson=lesson, uploaded_file=video, user=user)

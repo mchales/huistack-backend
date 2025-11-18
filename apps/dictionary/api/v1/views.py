@@ -33,6 +33,11 @@ class LemmaViewSet(viewsets.ModelViewSet):
     ordering_fields = ["simplified", "traditional"]
     ordering = ["simplified"]
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["include_tokens"] = getattr(self, "action", None) == "retrieve"
+        return context
+
 
 class SenseViewSet(viewsets.ModelViewSet):
     queryset = Sense.objects.select_related("lemma").all()

@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Lesson, SourceText, Sentence, SentenceTranslation, SentenceToken
+from .models import (
+    Lesson,
+    LessonVideoJob,
+    SourceText,
+    Sentence,
+    SentenceTranslation,
+    SentenceToken,
+)
 
 
 @admin.register(Lesson)
@@ -31,12 +38,16 @@ class SentenceTokenInline(admin.TabularInline):
 
 @admin.register(Sentence)
 class SentenceAdmin(admin.ModelAdmin):
-    list_display = ("id", "lesson", "index", "text")
+    list_display = ("id", "lesson", "index", "text", "has_frame")
     search_fields = ("text",)
     list_select_related = ("lesson", "source")
     autocomplete_fields = ["lesson", "source"]
     inlines = [SentenceTokenInline]
     show_full_result_count = False
+
+    @admin.display(boolean=True, description="Frame")
+    def has_frame(self, obj):
+        return bool(obj.frame_image)
 
 
 @admin.register(SentenceTranslation)
@@ -55,3 +66,27 @@ class SentenceTokenAdmin(admin.ModelAdmin):
     list_select_related = ("sentence", "lemma")
     autocomplete_fields = ["sentence", "lemma"]
     show_full_result_count = False
+
+
+@admin.register(LessonVideoJob)
+class LessonVideoJobAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "lesson",
+        "status",
+        "processed_frames",
+        "total_frames",
+        "created_at",
+    )
+    list_filter = ("status",)
+    search_fields = ("lesson__title", "id")
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+        "started_at",
+        "completed_at",
+        "processed_frames",
+        "total_frames",
+        "error_message",
+    )
+    autocomplete_fields = ["lesson", "uploaded_by"]

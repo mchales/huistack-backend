@@ -1,11 +1,18 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import LessonViewSet, ingest_text, ingest_srt, sentence_translation
+from .views import (
+    LessonVideoJobViewSet,
+    LessonViewSet,
+    ingest_text,
+    ingest_srt,
+    sentence_translation,
+)
 
 
 router = DefaultRouter()
 router.register(r"lessons", LessonViewSet, basename="lesson")
+router.register(r"lesson-video-jobs", LessonVideoJobViewSet, basename="lesson-video-job")
 
 lesson_audio_url = LessonViewSet.as_view({"get": "audio_url"})
 
