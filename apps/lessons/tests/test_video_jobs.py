@@ -65,6 +65,8 @@ def test_video_job_extracts_frames(tmp_path, settings):
 
     assert job.status == job.Status.COMPLETED
     assert job.processed_frames == 2
+    lesson.refresh_from_db()
+    assert lesson.has_video_frames is True
 
     for sentence in Sentence.objects.filter(lesson=lesson):
         sentence.refresh_from_db()

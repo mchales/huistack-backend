@@ -125,6 +125,7 @@ def process_lesson_video_job(job_id) -> LessonVideoJob | None:
         job.status = LessonVideoJob.Status.COMPLETED
         job.completed_at = timezone.now()
         job.save(update_fields=["status", "completed_at", "updated_at"])
+        _update_lesson_video_flag(job.lesson_id)
         return job
     except Exception as exc:
         logger.exception("Lesson video job %s failed", job.id)
@@ -132,6 +133,7 @@ def process_lesson_video_job(job_id) -> LessonVideoJob | None:
         job.status = LessonVideoJob.Status.FAILED
         job.completed_at = timezone.now()
         job.save(update_fields=["status", "error_message", "completed_at", "updated_at"])
+        _update_lesson_video_flag(job.lesson_id)
         return job
     finally:
         if capture is not None:
@@ -175,6 +177,7 @@ def _fail_job(job: LessonVideoJob, message: str) -> LessonVideoJob:
     job.error_message = message
     job.completed_at = timezone.now()
     job.save(update_fields=["status", "error_message", "completed_at", "updated_at"])
+    _update_lesson_video_flag(job.lesson_id)
     _cleanup_video(job)
     return job
 
@@ -186,3 +189,10 @@ def _cleanup_video(job: LessonVideoJob) -> None:
             job.video_file.delete(save=False)
         except Exception:  # pragma: no cover - depends on storage backend
             logger.warning("Unable to delete processed video for job %s", job.id)
+
+
+def _update_lesson_video_flag(lesson_id):
+    has_frames = Sentence.objects.filter(
+        lesson_id=lesson_id, frame_image__isnull=False
+    ).exists()
+    Lesson.objects.filter(id=lesson_id).update(has_video_frames=has_frames)

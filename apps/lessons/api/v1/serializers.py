@@ -1,4 +1,6 @@
+from django.conf import settings
 from rest_framework import serializers
+
 from apps.lessons.models import (
     Lesson,
     LessonVideoJob,
@@ -7,6 +9,7 @@ from apps.lessons.models import (
     SentenceTranslation,
     SentenceToken,
 )
+from apps.lessons.services import LessonAudioError, generate_presigned_storage_url
 from apps.lessons.video_jobs import create_lesson_video_job
 
 
@@ -59,12 +62,19 @@ class SentenceSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "tokens", "translations", "frame_image_url"]
 
     def get_frame_image_url(self, obj: Sentence):
-        if obj.frame_image:
-            try:
-                return obj.frame_image.url
-            except ValueError:
-                return None
-        return None
+        if not obj.frame_image:
+            return None
+        try:
+            url = obj.frame_image.url
+        except ValueError:
+            return None
+        bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
+        if not bucket:
+            return url
+        try:
+            return generate_presigned_storage_url(url, expires_in=43200)
+        except LessonAudioError:
+            return url
 
 
 class SourceTextSerializer(serializers.ModelSerializer):
@@ -86,12 +96,13 @@ class LessonSerializer(serializers.ModelSerializer):
             "audio_url",
             "source_language",
             "target_language",
+            "has_video_frames",
             "meta",
             "created_at",
             "sentences",
             "sources",
         ]
-        read_only_fields = ["id", "created_at", "sentences", "sources"]
+        read_only_fields = ["id", "created_at", "sentences", "sources", "has_video_frames"]
 
 
 class LessonSummarySerializer(serializers.ModelSerializer):

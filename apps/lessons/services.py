@@ -19,7 +19,7 @@ else:
 
 
 class LessonAudioError(RuntimeError):
-    """Raised when an audio URL cannot be resolved or signed."""
+    """Raised when a media URL cannot be resolved or signed."""
 
 
 @dataclass(frozen=True)
@@ -109,9 +109,9 @@ def _s3_client():
     return boto3.client("s3", **client_kwargs)  # type: ignore[call-arg]  # boto3 may be None
 
 
-def generate_lesson_audio_presigned_url(audio_url: str, expires_in: int = 300) -> str:
-    """Return a short-lived download URL for a lesson's audio file."""
-    identity = _extract_s3_identity(audio_url)
+def generate_presigned_storage_url(object_url: str, expires_in: int = 300) -> str:
+    """Return a short-lived download URL for any lesson media stored in S3."""
+    identity = _extract_s3_identity(object_url)
     client = _s3_client()
     try:
         return client.generate_presigned_url(
@@ -120,4 +120,9 @@ def generate_lesson_audio_presigned_url(audio_url: str, expires_in: int = 300) -
             ExpiresIn=expires_in,
         )
     except (ClientError, BotoCoreError, NoCredentialsError) as exc:  # pragma: no cover
-        raise LessonAudioError("Unable to generate audio URL") from exc
+        raise LessonAudioError("Unable to generate media URL") from exc
+
+
+def generate_lesson_audio_presigned_url(audio_url: str, expires_in: int = 300) -> str:
+    """Return a short-lived download URL for a lesson's audio file."""
+    return generate_presigned_storage_url(audio_url, expires_in=expires_in)

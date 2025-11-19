@@ -22,6 +22,9 @@ class Lesson(models.Model):
     source_language = models.CharField(max_length=16, default="zh")
     target_language = models.CharField(max_length=16, default="en")
     audio_url = models.URLField(blank=True, default="")
+    has_video_frames = models.BooleanField(
+        default=False, help_text="True when at least one frame image has been generated"
+    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL
     )

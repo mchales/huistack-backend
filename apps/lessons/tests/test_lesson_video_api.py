@@ -62,6 +62,8 @@ def test_upload_video_action_creates_job(tmp_path, settings):
     job.refresh_from_db()
     assert job.status == LessonVideoJob.Status.COMPLETED
     assert response.data["id"] == str(job.id)
+    lesson.refresh_from_db()
+    assert lesson.has_video_frames is True
 
     for sentence in lesson.sentences.all():
         sentence.refresh_from_db()
