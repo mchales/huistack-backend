@@ -72,7 +72,7 @@ class SentenceSerializer(serializers.ModelSerializer):
         if not bucket:
             return url
         try:
-            return generate_presigned_storage_url(url, expires_in=43200)
+            return generate_presigned_storage_url(url, expires_in=86400)
         except LessonAudioError:
             return url
 

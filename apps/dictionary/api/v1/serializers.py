@@ -13,6 +13,8 @@ class SenseSerializer(serializers.ModelSerializer):
 class LemmaSerializer(serializers.ModelSerializer):
     senses = SenseSerializer(many=True, read_only=True)
     tokens = serializers.SerializerMethodField()
+    familiarity = serializers.SerializerMethodField()
+    ignore = serializers.SerializerMethodField()
 
     class Meta:
         model = Lemma
@@ -24,8 +26,10 @@ class LemmaSerializer(serializers.ModelSerializer):
             "meta",
             "senses",
             "tokens",
+            "familiarity",
+            "ignore",
         ]
-        read_only_fields = ["id", "senses", "tokens"]
+        read_only_fields = ["id", "senses", "tokens", "familiarity", "ignore"]
 
     def get_tokens(self, obj):
         if not self.context.get("include_tokens"):
@@ -69,3 +73,27 @@ class LemmaSerializer(serializers.ModelSerializer):
                 }
             )
         return tokens
+
+    def _get_user_progress(self, obj):
+        cache = self.context.setdefault("_progress_cache", {})
+        if obj.id in cache:
+            return cache[obj.id]
+
+        request = self.context.get("request")
+        user = getattr(request, "user", None) if request else None
+        if not user or not user.is_authenticated:
+            cache[obj.id] = None
+            return None
+
+        cache[obj.id] = (
+            LemmaProgress.objects.filter(user=user, lemma=obj).only("familiarity", "ignore").first()
+        )
+        return cache[obj.id]
+
+    def get_familiarity(self, obj):
+        progress = self._get_user_progress(obj)
+        return progress.familiarity if progress else None
+
+    def get_ignore(self, obj):
+        progress = self._get_user_progress(obj)
+        return bool(progress.ignore) if progress else False
