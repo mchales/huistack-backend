@@ -368,7 +368,10 @@ def sentence_translation(request, sentence_id: int):
 
 
 class LessonVideoJobViewSet(
-    mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
 ):
     queryset = LessonVideoJob.objects.select_related("lesson").all()
     serializer_class = LessonVideoJobSerializer
