@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from apps.dictionary.models import Lemma, Sense
+from apps.dictionary.examples import prepare_sentence_payloads
+from apps.dictionary.models import Lemma, Sense, UserLemmaExample
 from apps.progress.models import LemmaProgress
 
 
@@ -15,6 +16,7 @@ class LemmaSerializer(serializers.ModelSerializer):
     tokens = serializers.SerializerMethodField()
     familiarity = serializers.SerializerMethodField()
     ignore = serializers.SerializerMethodField()
+    examples = serializers.SerializerMethodField()
 
     class Meta:
         model = Lemma
@@ -28,8 +30,9 @@ class LemmaSerializer(serializers.ModelSerializer):
             "tokens",
             "familiarity",
             "ignore",
+            "examples",
         ]
-        read_only_fields = ["id", "senses", "tokens", "familiarity", "ignore"]
+        read_only_fields = ["id", "senses", "tokens", "familiarity", "ignore", "examples"]
 
     def get_tokens(self, obj):
         if not self.context.get("include_tokens"):
@@ -97,3 +100,22 @@ class LemmaSerializer(serializers.ModelSerializer):
     def get_ignore(self, obj):
         progress = self._get_user_progress(obj)
         return bool(progress.ignore) if progress else False
+
+    def get_examples(self, obj):
+        if not self.context.get("include_tokens"):
+            return []
+
+        request = self.context.get("request")
+        user = getattr(request, "user", None) if request else None
+        if not user or not user.is_authenticated:
+            return []
+
+        example = (
+            UserLemmaExample.objects.filter(user=user, lemma=obj)
+            .only("sentences")
+            .first()
+        )
+        if not example or not example.sentences:
+            return []
+
+        return prepare_sentence_payloads(example.sentences, user)

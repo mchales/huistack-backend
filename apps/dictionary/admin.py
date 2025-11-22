@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lemma, Sense
+from .models import Lemma, Sense, UserLemmaExample
 
 
 class SenseInline(admin.TabularInline):
@@ -24,3 +24,12 @@ class SenseAdmin(admin.ModelAdmin):
     autocomplete_fields = ["lemma"]
     # Speed up large changelists by skipping COUNT(*).
     show_full_result_count = False
+
+
+@admin.register(UserLemmaExample)
+class UserLemmaExampleAdmin(admin.ModelAdmin):
+    list_display = ("user", "lemma", "updated_at")
+    list_select_related = ("user", "lemma")
+    search_fields = ("user__email", "user__username", "lemma__simplified", "lemma__traditional")
+    autocomplete_fields = ["lemma", "user"]
+    ordering = ("-updated_at",)
