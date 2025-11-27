@@ -146,12 +146,40 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_TARGET = os.getenv('DATABASE_TARGET', 'sqlite').lower()
+
+
+def _postgres_config(prefix: str):
+    """Build a Postgres config from env vars with the given prefix."""
+    db_name = os.getenv(f'{prefix}_DB_NAME')
+    if not db_name:
+        return None
+    return {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': db_name,
+        'USER': os.getenv(f'{prefix}_DB_USER', 'postgres'),
+        'PASSWORD': os.getenv(f'{prefix}_DB_PASSWORD'),
+        'HOST': os.getenv(f'{prefix}_DB_HOST', 'localhost'),
+        'PORT': os.getenv(f'{prefix}_DB_PORT', '5432'),
     }
-}
+
+
+if DATABASE_TARGET in ('development', 'dev'):
+    default_db = _postgres_config('DEV')
+elif DATABASE_TARGET == 'local':
+    default_db = _postgres_config('LOCAL')
+else:
+    default_db = None
+
+if default_db:
+    DATABASES = {'default': default_db}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
