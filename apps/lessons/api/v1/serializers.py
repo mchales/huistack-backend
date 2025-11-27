@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from apps.lessons.models import (
     Lesson,
+    LessonSettings,
     LessonVideoJob,
     SourceText,
     Sentence,
@@ -110,6 +111,60 @@ class LessonSummarySerializer(serializers.ModelSerializer):
         model = Lesson
         fields = ["id", "title", "created_at"]
         read_only_fields = ["id", "title", "created_at"]
+
+
+class LessonViewerSettingsSerializer(serializers.Serializer):
+    showPinyin = serializers.BooleanField(source="show_pinyin", required=False)
+    showPinyinOnlyForUnfamiliar = serializers.BooleanField(
+        source="show_pinyin_only_for_unfamiliar", required=False
+    )
+    characterSize = serializers.IntegerField(
+        source="character_size", required=False, min_value=8, max_value=96
+    )
+    pinyinSize = serializers.IntegerField(
+        source="pinyin_size", required=False, min_value=6, max_value=48
+    )
+    showFrameImages = serializers.BooleanField(source="show_frame_images", required=False)
+
+
+class LessonSettingsSerializer(serializers.ModelSerializer):
+    viewerSettings = LessonViewerSettingsSerializer(source="*", required=False)
+    autoplayAudioOnNext = serializers.BooleanField(
+        source="autoplay_audio_on_next", required=False
+    )
+
+    class Meta:
+        model = LessonSettings
+        fields = ["viewerSettings", "autoplayAudioOnNext"]
+
+    def update(self, instance, validated_data):
+        lesson = self.context.get("lesson") or getattr(instance, "lesson", None)
+        updated_fields: list[str] = []
+        for attr, value in validated_data.items():
+            if attr == "show_frame_images" and lesson and not lesson.has_video_frames:
+                value = False
+            if attr == "autoplay_audio_on_next" and lesson and not lesson.audio_url:
+                value = False
+            if getattr(instance, attr) == value:
+                continue
+            setattr(instance, attr, value)
+            updated_fields.append(attr)
+        if updated_fields:
+            updated_fields.append("updated_at")
+            instance.save(update_fields=updated_fields)
+        return instance
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        lesson = self.context.get("lesson") or getattr(instance, "lesson", None)
+        viewer = data.get("viewerSettings") or {}
+        if lesson:
+            if not lesson.has_video_frames:
+                viewer["showFrameImages"] = False
+            if not lesson.audio_url:
+                data["autoplayAudioOnNext"] = False
+        data["viewerSettings"] = viewer
+        return data
 
 
 class IngestSerializer(serializers.Serializer):

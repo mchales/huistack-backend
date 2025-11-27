@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (
     Lesson,
+    LessonSettings,
     LessonVideoJob,
     SourceText,
     Sentence,
@@ -90,3 +91,10 @@ class LessonVideoJobAdmin(admin.ModelAdmin):
         "error_message",
     )
     autocomplete_fields = ["lesson", "uploaded_by"]
+
+
+@admin.register(LessonSettings)
+class LessonSettingsAdmin(admin.ModelAdmin):
+    list_display = ("id", "lesson", "user", "show_pinyin", "autoplay_audio_on_next")
+    search_fields = ("lesson__title", "user__username")
+    list_select_related = ("lesson", "user")

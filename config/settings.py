@@ -34,6 +34,15 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 OPENAI_DEFAULT_MODEL = os.getenv('OPENAI_DEFAULT_MODEL', 'gpt-4o')
 OPENAI_API_BASE = os.getenv('OPENAI_API_BASE', 'https://api.openai.com/v1')
 LLM_TIMEOUT = int(os.getenv('LLM_TIMEOUT', '30'))
+_google_redirects = os.getenv('GOOGLE_OAUTH_ALLOWED_REDIRECTS', 'postmessage')
+GOOGLE_OAUTH_ALLOWED_REDIRECTS = [uri.strip() for uri in _google_redirects.split(',') if uri.strip()]
+if not GOOGLE_OAUTH_ALLOWED_REDIRECTS:
+    GOOGLE_OAUTH_ALLOWED_REDIRECTS = ['postmessage']
+GOOGLE_OAUTH_DEFAULT_REDIRECT_URI = os.getenv(
+    'GOOGLE_OAUTH_DEFAULT_REDIRECT_URI',
+    GOOGLE_OAUTH_ALLOWED_REDIRECTS[0],
+)
+GOOGLE_OAUTH_TOKEN_TIMEOUT = int(os.getenv('GOOGLE_OAUTH_TOKEN_TIMEOUT', '10'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -55,6 +64,7 @@ ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', _DEFAULT_ALLOWED)
 INSTALLED_APPS = [
     'corsheaders',
     'storages',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,6 +101,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -122,6 +133,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -208,6 +221,10 @@ if os.getenv('AWS_STORAGE_BUCKET_NAME'):
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
@@ -240,6 +257,14 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_COOKIE_HTTP_ONLY': True,
     'REFRESH_TOKEN_COOKIE_SAMESITE': os.getenv('REFRESH_TOKEN_COOKIE_SAMESITE', 'None'),
 }
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_POSTGRES_JSONFIELD = False
+SOCIAL_AUTH_SANITIZE_REDIRECTS = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('GOOGLE_OAUTH_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['openid', 'email', 'profile']
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['id', 'email', 'verified_email', 'picture']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -12,6 +12,7 @@ from apps.dictionary.models import Lemma
 from apps.progress.models import LemmaProgress
 from apps.lessons.models import (
     Lesson,
+    LessonSettings,
     LessonVideoJob,
     SourceText,
     Sentence,
@@ -25,6 +26,7 @@ from .serializers import (
     IngestSerializer,
     IngestSrtSerializer,
     LessonSerializer,
+    LessonSettingsSerializer,
     LessonSummarySerializer,
     LessonVideoJobSerializer,
     LessonVideoJobCreateSerializer,
@@ -34,6 +36,19 @@ from .serializers import (
 class LessonViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Lesson.objects.all().order_by("-created_at")
     serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Limit lesson visibility to the owner unless the requester is staff.
+        """
+        qs = super().get_queryset()
+        user = getattr(self.request, "user", None)
+        if not user or not user.is_authenticated:
+            return qs.none()
+        if user.is_staff:
+            return qs
+        return qs.filter(created_by=user)
 
     def retrieve(self, request, *args, **kwargs):
         lesson = self.get_object()
@@ -84,6 +99,35 @@ class LessonViewSet(viewsets.ReadOnlyModelViewSet):
             self.get_queryset().filter(created_by=request.user).only("id", "title", "created_at")
         )
         serializer = LessonSummarySerializer(lessons, many=True)
+        return Response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=["get", "patch"],
+        permission_classes=[IsAuthenticated],
+        url_path="settings",
+        url_name="settings",
+    )
+    def lesson_settings(self, request, pk=None):
+        """
+        Return or update the requesting user's preferences for this lesson.
+        """
+        lesson = self.get_object()
+        settings_obj, _created = LessonSettings.objects.get_or_create(
+            lesson=lesson, user=request.user
+        )
+        serializer_context = {**self.get_serializer_context(), "lesson": lesson}
+        if request.method == "PATCH":
+            serializer = LessonSettingsSerializer(
+                settings_obj,
+                data=request.data,
+                context=serializer_context,
+                partial=True,
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+        serializer = LessonSettingsSerializer(settings_obj, context=serializer_context)
         return Response(serializer.data)
 
     @action(

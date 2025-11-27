@@ -35,6 +35,32 @@ class Lesson(models.Model):
         return f"Lesson {self.id}: {self.title}"
 
 
+class LessonSettings(models.Model):
+    """Stores per-user preferences for how a lesson should be displayed."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="lesson_settings"
+    )
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="user_settings")
+    show_pinyin = models.BooleanField(default=True)
+    show_pinyin_only_for_unfamiliar = models.BooleanField(default=False)
+    character_size = models.PositiveSmallIntegerField(default=28)
+    pinyin_size = models.PositiveSmallIntegerField(default=14)
+    show_frame_images = models.BooleanField(default=False)
+    autoplay_audio_on_next = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "lesson"], name="uniq_user_lesson_settings")
+        ]
+        indexes = [models.Index(fields=["user", "lesson"])]
+
+    def __str__(self) -> str:
+        return f"Settings for {self.user_id} / {self.lesson_id}"
+
+
 class SourceText(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name="sources")
     name = models.CharField(max_length=255, blank=True, default="")

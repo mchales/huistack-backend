@@ -1,16 +1,24 @@
 from django.conf import settings
+from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import (
     TokenBlacklistView,
     TokenObtainPairView,
     TokenRefreshView,
 )
+from social_core.exceptions import AuthException
+from social_django.utils import load_backend, load_strategy
+import requests
 
 from .serializers import (
     CookieTokenBlacklistSerializer,
     CookieTokenRefreshSerializer,
     CookieTokenObtainPairSerializer,
+    CustomUserSerializer,
 )
 
 
@@ -110,3 +118,91 @@ class CookieTokenBlacklistView(RefreshTokenCookieMixin, TokenBlacklistView):
         if response.status_code < 400:
             self.clear_refresh_cookie(response)
         return response
+
+
+class GoogleOAuthExchangeView(RefreshTokenCookieMixin, APIView):
+    permission_classes = [AllowAny]
+    GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
+
+    def post(self, request, *args, **kwargs):
+        if not settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY or not settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET:
+            return Response(
+                {'detail': 'Google sign-in is not configured.'},
+                status=status.HTTP_501_NOT_IMPLEMENTED,
+            )
+
+        code = request.data.get('code')
+        redirect_uri = request.data.get('redirect_uri') or settings.GOOGLE_OAUTH_DEFAULT_REDIRECT_URI
+
+        if not code:
+            return Response(
+                {'detail': 'Missing authorization code.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if redirect_uri not in settings.GOOGLE_OAUTH_ALLOWED_REDIRECTS:
+            return Response(
+                {'detail': 'redirect_uri is not allowed.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        token_data, error = self.exchange_code_for_tokens(code, redirect_uri)
+        if error:
+            return Response({'detail': error['detail']}, status=error['status'])
+
+        access_token = token_data.get('access_token')
+        if not access_token:
+            return Response(
+                {'detail': 'Google did not return an access token.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        strategy = load_strategy(request)
+        backend = load_backend(strategy, 'google-oauth2', redirect_uri=redirect_uri)
+
+        try:
+            user = backend.do_auth(access_token, response=token_data)
+        except AuthException as exc:
+            return Response({'detail': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not user or not user.is_active:
+            return Response({'detail': 'Authentication failed.'}, status=status.HTTP_403_FORBIDDEN)
+
+        refresh = RefreshToken.for_user(user)
+        payload = {
+            'access': str(refresh.access_token),
+            'user': CustomUserSerializer(user, context={'request': request}).data,
+            'provider': 'google',
+        }
+
+        response = Response(payload)
+        self.set_refresh_cookie(response, str(refresh))
+        return response
+
+    def exchange_code_for_tokens(self, code, redirect_uri):
+        data = {
+            'code': code,
+            'client_id': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+            'client_secret': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+            'redirect_uri': redirect_uri,
+            'grant_type': 'authorization_code',
+        }
+
+        try:
+            token_response = requests.post(
+                self.GOOGLE_TOKEN_URL,
+                data=data,
+                timeout=settings.GOOGLE_OAUTH_TOKEN_TIMEOUT,
+            )
+        except requests.RequestException:
+            return None, {
+                'detail': 'Unable to reach Google. Try again.',
+                'status': status.HTTP_503_SERVICE_UNAVAILABLE,
+            }
+
+        payload = token_response.json()
+        if token_response.status_code != 200:
+            detail = payload.get('error_description') or payload.get('error') or 'Code exchange failed.'
+            return None, {'detail': detail, 'status': status.HTTP_400_BAD_REQUEST}
+
+        return payload, None
