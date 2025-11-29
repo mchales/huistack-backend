@@ -17,6 +17,7 @@ class LemmaSerializer(serializers.ModelSerializer):
     familiarity = serializers.SerializerMethodField()
     ignore = serializers.SerializerMethodField()
     examples = serializers.SerializerMethodField()
+    characters = serializers.SerializerMethodField()
 
     class Meta:
         model = Lemma
@@ -31,8 +32,9 @@ class LemmaSerializer(serializers.ModelSerializer):
             "familiarity",
             "ignore",
             "examples",
+            "characters",
         ]
-        read_only_fields = ["id", "senses", "tokens", "familiarity", "ignore", "examples"]
+        read_only_fields = ["id", "senses", "tokens", "familiarity", "ignore", "examples", "characters"]
 
     def get_tokens(self, obj):
         if not self.context.get("include_tokens"):
@@ -119,3 +121,39 @@ class LemmaSerializer(serializers.ModelSerializer):
             return []
 
         return prepare_sentence_payloads(example.sentences, user)
+
+    def get_characters(self, obj):
+        # Build an ordered list of characters (via LemmaCharacter)
+        # including their radicals.
+        components = (
+            obj.lemma_components.select_related("character")
+        )
+        results = []
+        # Access all radicals in a single pass if prefetched
+        for comp in components:
+            ch = comp.character
+            radicals_payload = []
+            for r in ch.radicals.all():
+                radicals_payload.append(
+                    {
+                        "kangxi_number": r.kangxi_number,
+                        "character": r.character,
+                        "traditional_character": r.traditional_character,
+                        "simplified_character": r.simplified_character,
+                        "pinyin": r.pinyin,
+                        "english": r.english,
+                        "stroke_count": r.stroke_count,
+                        "variants": r.variants,
+                    }
+                )
+            results.append(
+                {
+                    "order_index": comp.order_index,
+                    "specific_pinyin": comp.specific_pinyin or None,
+                    "hanzi": ch.hanzi,
+                    "pinyin": ch.pinyin,
+                    "stroke_count": ch.stroke_count,
+                    "radicals": radicals_payload,
+                }
+            )
+        return results

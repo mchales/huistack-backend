@@ -26,7 +26,13 @@ class ExampleSentences(BaseModel):
     sentences: List[SentencePair]
 
 class LemmaViewSet(viewsets.ModelViewSet):
-    queryset = Lemma.objects.all()
+    queryset = (
+        Lemma.objects.all()
+        .prefetch_related(
+            "senses",
+            "lemma_components__character__radicals",
+        )
+    )
     serializer_class = LemmaSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["simplified", "traditional", "pinyin_numbers", "senses__gloss"]

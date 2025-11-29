@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Lemma, Sense, UserLemmaExample
+from .models import (
+    Character,
+    Lemma,
+    LemmaCharacter,
+    Radical,
+    Sense,
+    UserLemmaExample,
+)
 
 
 class SenseInline(admin.TabularInline):
@@ -33,3 +40,33 @@ class UserLemmaExampleAdmin(admin.ModelAdmin):
     search_fields = ("user__email", "user__username", "lemma__simplified", "lemma__traditional")
     autocomplete_fields = ["lemma", "user"]
     ordering = ("-updated_at",)
+
+
+@admin.register(Character)
+class CharacterAdmin(admin.ModelAdmin):
+    list_display = ("hanzi", "stroke_count", "definition")
+    search_fields = ("hanzi", "radicals__character", "definition")
+    ordering = ("hanzi",)
+    # Avoid listing all radicals on the form; use AJAX search instead
+    autocomplete_fields = ["radicals"]
+
+
+@admin.register(LemmaCharacter)
+class LemmaCharacterAdmin(admin.ModelAdmin):
+    list_display = ("lemma", "character", "order_index", "specific_pinyin")
+    list_select_related = ("lemma", "character")
+    search_fields = (
+        "lemma__simplified",
+        "lemma__traditional",
+        "character__hanzi",
+        "specific_pinyin",
+    )
+    ordering = ("lemma", "order_index")
+    autocomplete_fields = ["lemma", "character"]
+
+
+@admin.register(Radical)
+class RadicalAdmin(admin.ModelAdmin):
+    list_display = ("kangxi_number", "character", "english", "stroke_count")
+    search_fields = ("character", "english", "pinyin", "kangxi_number")
+    ordering = ("kangxi_number",)
