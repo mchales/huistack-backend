@@ -60,11 +60,17 @@ class Command(BaseCommand):
                         'traditional_character': traditional,
                         'simplified_character': simplified,
                         'character': primary_char, # Explicitly setting this ensures it's correct
+                        
+                        # Existing fields
                         'pinyin': entry.get('pinyin', ''),
                         'english': entry.get('meaning', ''),      # JSON 'meaning' -> Model 'english'
                         'stroke_count': entry.get('strokes', 0),  # JSON 'strokes' -> Model 'stroke_count'
-                        'frequency': entry.get('frequency', 0),   # New field
+                        'frequency': entry.get('frequency', 0),   
                         'variants': entry.get('variants', []),
+                        
+                        # New Name Fields
+                        'name_simplified': entry.get('name_simplified', ''),
+                        'name_pinyin': entry.get('name_pinyin', ''),
                     }
                 )
 

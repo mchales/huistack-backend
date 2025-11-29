@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand, CommandError
 from apps.dictionary.models import Character, Radical
 
 class Command(BaseCommand):
-    help = 'Imports Chinese characters and links ALL radicals found in decomposition (checking variants and traditional forms)'
+    help = 'Imports Chinese characters, sets main radical, and links other radicals recursively'
 
     def add_arguments(self, parser):
         parser.add_argument('file_path', type=str, help='Path to the characters.txt file')
@@ -16,50 +16,88 @@ class Command(BaseCommand):
         if not os.path.exists(file_path):
             raise CommandError(f'File "{file_path}" does not exist.')
 
-        self.stdout.write(self.style.SUCCESS(f'Starting import from {file_path}...'))
-
-        # --- CACHE LOGIC ---
-        # We build a dictionary where the main character, simplified, traditional,
-        # AND its variants all point to the same Radical object instance.
+        # --- STEP 0: LOAD RADICAL CACHE ---
+        self.stdout.write(self.style.SUCCESS(f'Loading radicals from DB...'))
+        
         radical_cache = {}
         radicals_qs = Radical.objects.all()
         
         for r in radicals_qs:
-            # 1. Map the primary character (e.g., '水' or '讠')
             radical_cache[r.character] = r
-
-            # 2. Map the Traditional form explicitly (e.g., '言') if it exists
             if r.traditional_character:
                 radical_cache[r.traditional_character] = r
-
-            # 3. Map the Simplified form explicitly if it exists
             if r.simplified_character:
                 radical_cache[r.simplified_character] = r
-            
-            # 4. Map the variants (e.g., '氵', '氺')
             if r.variants: 
                 for v in r.variants:
                     radical_cache[v] = r
                     
-        self.stdout.write(f'Cached {len(radicals_qs)} radicals (mapped to {len(radical_cache)} total lookup keys).')
+        self.stdout.write(f'Cached {len(radicals_qs)} radicals.')
 
+        # --- STEP 1: PRE-LOAD DECOMPOSITIONS (Pass 1) ---
+        self.stdout.write(self.style.WARNING(f'Building decomposition map (Pass 1)...'))
+        
+        full_decomp_map = {}
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line: continue
+                try:
+                    data = json.loads(line)
+                    char = data.get('character')
+                    decomp = data.get('decomposition', '')
+                    if char:
+                        full_decomp_map[char] = decomp
+                except json.JSONDecodeError:
+                    continue
+        
+        self.stdout.write(f'Mapped decompositions for {len(full_decomp_map)} characters.')
+
+        # --- RECURSIVE FUNCTION ---
+        def get_recursive_radicals(char_str, visited=None):
+            if visited is None:
+                visited = set()
+
+            found_radicals = set()
+            
+            for char in char_str:
+                # 1. Skip structural markers
+                if char in '⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻':
+                    continue
+
+                # 2. CHECK: Is this character ALREADY a known Radical?
+                if char in radical_cache:
+                    found_radicals.add(radical_cache[char])
+                    # STOP recursion here. Treat this radical as an atomic unit.
+                    continue 
+
+                # 3. RECURSION: Dig deeper if it's not a radical
+                if char in full_decomp_map and char not in visited:
+                    visited.add(char)
+                    child_decomp = full_decomp_map[char]
+                    
+                    child_radicals = get_recursive_radicals(child_decomp, visited)
+                    found_radicals.update(child_radicals)
+
+            return found_radicals
+
+
+        # --- STEP 2: BATCH PROCESSING (Pass 2) ---
+        self.stdout.write(self.style.SUCCESS(f'Starting main import process...'))
+        
         BATCH_SIZE = 2000
         batch_data = []
         total_processed = 0
 
-        # Open the log file
         with open(output_log_path, 'w', encoding='utf-8') as log_file:
 
             def process_batch(batch):
-                """
-                Process a batch of dictionaries.
-                """
-                if not batch:
-                    return
+                if not batch: return
 
                 hanzi_list = [item['hanzi'] for item in batch]
                 
-                # --- STEP A: Create/Update the Character objects ---
+                # A. Upsert Characters and Main Radical
                 existing_qs = Character.objects.filter(hanzi__in=hanzi_list)
                 existing_map = {c.hanzi: c for c in existing_qs}
                 
@@ -68,6 +106,13 @@ class Command(BaseCommand):
 
                 for item in batch:
                     hanzi = item['hanzi']
+                    
+                    # 1. Resolve Main Radical Object here
+                    explicit_rad_char = item.get('radical_char')
+                    main_rad_obj = radical_cache.get(explicit_rad_char) # Returns None if not found
+                    
+                    # Update defaults to include the main_radical object
+                    item['defaults']['main_radical'] = main_rad_obj
                     defaults = item['defaults']
                     
                     if hanzi in existing_map:
@@ -76,93 +121,82 @@ class Command(BaseCommand):
                         char_obj.pinyin = defaults['pinyin']
                         char_obj.decomposition = defaults['decomposition']
                         char_obj.etymology = defaults['etymology']
+                        char_obj.main_radical = defaults['main_radical'] # Update FK
                         to_update.append(char_obj)
                     else:
                         to_create.append(Character(hanzi=hanzi, **defaults))
 
                 if to_create:
                     Character.objects.bulk_create(to_create)
-                
                 if to_update:
+                    # Added 'main_radical' to updated fields
                     Character.objects.bulk_update(
                         to_update, 
-                        fields=['definition', 'pinyin', 'decomposition', 'etymology']
+                        fields=['definition', 'pinyin', 'decomposition', 'etymology', 'main_radical']
                     )
 
-                # --- STEP B: Link Radicals ---
+                # B. Link Other Radicals (M2M)
                 
-                # 1. Get the IDs of the characters we just processed
-                # Assuming Character model still uses the default 'id'. 
-                # If Character also uses a custom PK, change 'id' below to 'pk'.
+                # 1. Get IDs for this batch
                 char_id_map = dict(Character.objects.filter(hanzi__in=hanzi_list).values_list('hanzi', 'pk'))
                 
-                # 2. Prepare the Many-to-Many Through table buffer
+                # Clear existing M2M relationships for this batch
+                current_batch_ids = list(char_id_map.values())
+                ThroughModel = Character.other_radicals.through # Updated related_name access
+                
+                if current_batch_ids:
+                    ThroughModel.objects.filter(character_id__in=current_batch_ids).delete()
+
                 m2m_relations = []
                 log_entries = [] 
-                ThroughModel = Character.radicals.through # Access the hidden table for optimization
 
                 for item in batch:
                     char_str = item['hanzi']
                     char_id = char_id_map.get(char_str)
+                    if not char_id: continue
+
+                    root_decomp = item['defaults']['decomposition']
+                    main_rad_obj = item['defaults']['main_radical'] # Retrieved from previous step
                     
-                    if not char_id:
-                        continue
+                    # Generate all radicals via recursive decomposition
+                    recursive_radicals = set()
+                    if root_decomp:
+                        found = get_recursive_radicals(root_decomp, visited={char_str})
+                        recursive_radicals.update(found)
 
-                    # Determine which radicals to add
-                    radicals_to_add_chars = set()
+                    # IMPORTANT: Exclude the Main Radical from the Other Radicals list
+                    if main_rad_obj and main_rad_obj in recursive_radicals:
+                        recursive_radicals.discard(main_rad_obj)
 
-                    # 1. Add the "primary" radical defined in the file
-                    if item.get('radical_char'):
-                        radicals_to_add_chars.add(item.get('radical_char'))
-
-                    # 2. Parse the "decomposition" string
-                    decomp_string = item['defaults']['decomposition']
-                    if decomp_string:
-                        for char in decomp_string:
-                            radicals_to_add_chars.add(char)
-
-                    # 3. Create the DB Connections
                     added_rads_log = []
-                    
-                    for radical_char in radicals_to_add_chars:
-                        radical_obj = radical_cache.get(radical_char)
-                        
-                        if radical_obj:
-                            # FIX: Used .pk instead of .id
-                            m2m_relations.append(
-                                ThroughModel(character_id=char_id, radical_id=radical_obj.pk)
-                            )
-                            # Log which actual radical object was found
-                            added_rads_log.append(f"{radical_char}→{radical_obj.character}")
+                    for r_obj in recursive_radicals:
+                        m2m_relations.append(
+                            ThroughModel(character_id=char_id, radical_id=r_obj.pk)
+                        )
+                        added_rads_log.append(r_obj.character)
 
-                    # Log what we found for this character
                     if added_rads_log:
-                        log_entries.append(f"{char_str}: linked to [{', '.join(added_rads_log)}]\n")
+                        log_entries.append(f"{char_str}: Main=[{main_rad_obj}] Other=[{', '.join(added_rads_log)}]\n")
                     else:
-                        log_entries.append(f"{char_str}: No valid radicals found in DB.\n")
+                        log_entries.append(f"{char_str}: Main=[{main_rad_obj}] No other radicals.\n")
 
-                # --- STEP C: Commit Relations to DB ---
                 if m2m_relations:
-                    # ignore_conflicts=True prevents crashing if the link already exists
-                    ThroughModel.objects.bulk_create(m2m_relations, ignore_conflicts=True)
+                    ThroughModel.objects.bulk_create(m2m_relations)
                 
-                # Write logs
                 if log_entries:
                     log_file.writelines(log_entries)
                     log_file.flush()
 
-            # --- Main Loop Reading File ---
+            # Loop over file for Step 2
             with open(file_path, 'r', encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
                     if not line: continue
-
                     try:
                         data = json.loads(line)
                         char_hanzi = data.get('character')
                         if not char_hanzi: continue
 
-                        # Flatten pinyin list to string
                         pinyin_raw = data.get('pinyin', [])
                         pinyin_str = ", ".join(pinyin_raw) if isinstance(pinyin_raw, list) else str(pinyin_raw)
 
@@ -174,7 +208,7 @@ class Command(BaseCommand):
                                 'decomposition': data.get('decomposition', ''),
                                 'etymology': data.get('etymology', {}),
                             },
-                            'radical_char': data.get('radical')
+                            'radical_char': data.get('radical') # Extract raw radical char
                         }
                         
                         batch_data.append(item)
@@ -188,10 +222,8 @@ class Command(BaseCommand):
                     except json.JSONDecodeError:
                         continue
 
-            # Process leftovers
             if batch_data:
                 process_batch(batch_data)
                 total_processed += len(batch_data)
 
         self.stdout.write(self.style.SUCCESS(f'\nImport complete. Processed {total_processed} characters.'))
-        self.stdout.write(self.style.SUCCESS(f'Check {output_log_path} to see which radicals were linked.'))

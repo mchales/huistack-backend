@@ -44,11 +44,16 @@ class UserLemmaExampleAdmin(admin.ModelAdmin):
 
 @admin.register(Character)
 class CharacterAdmin(admin.ModelAdmin):
-    list_display = ("hanzi", "stroke_count", "definition")
-    search_fields = ("hanzi", "radicals__character", "definition")
+    list_display = ("hanzi", "main_radical", "stroke_count", "definition")
+    search_fields = (
+        "hanzi",
+        "main_radical__character",
+        "other_radicals__character",
+        "definition",
+    )
     ordering = ("hanzi",)
-    # Avoid listing all radicals on the form; use AJAX search instead
-    autocomplete_fields = ["radicals"]
+    # Use autocomplete for radical relations
+    autocomplete_fields = ["main_radical", "other_radicals"]
 
 
 @admin.register(LemmaCharacter)
@@ -68,5 +73,14 @@ class LemmaCharacterAdmin(admin.ModelAdmin):
 @admin.register(Radical)
 class RadicalAdmin(admin.ModelAdmin):
     list_display = ("kangxi_number", "character", "english", "stroke_count")
-    search_fields = ("character", "english", "pinyin", "kangxi_number")
+    search_fields = (
+        "character",
+        "traditional_character",
+        "simplified_character",
+        "name_simplified",
+        "name_pinyin",
+        "english",
+        "pinyin",
+        "kangxi_number",
+    )
     ordering = ("kangxi_number",)

@@ -30,7 +30,8 @@ class LemmaViewSet(viewsets.ModelViewSet):
         Lemma.objects.all()
         .prefetch_related(
             "senses",
-            "lemma_components__character__radicals",
+            "lemma_components__character__main_radical",
+            "lemma_components__character__other_radicals",
         )
     )
     serializer_class = LemmaSerializer
@@ -41,15 +42,32 @@ class LemmaViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], url_path="preview", url_name="preview")
     def preview(self, request, *args, **kwargs):
-        """Return minimal lemma preview: pinyin_numbers and first sense."""
+        """Return lemma preview: pinyin_numbers, first sense, and extras.
+
+        Adds counts and an ordered list of additional senses so the client
+        can show the first sense inline and a dropdown for the rest.
+        """
         lemma = self.get_object()
-        first_sense = lemma.senses.order_by("sense_index").first()
+        senses_qs = lemma.senses.order_by("sense_index")
+        first_sense = senses_qs.first()
         serializer_context = self.get_serializer_context()
-        sense_data = SenseSerializer(first_sense, context=serializer_context).data if first_sense else None
-        return Response({
-            "pinyin_numbers": lemma.pinyin_numbers,
-            "sense": sense_data,
-        })
+        first_sense_data = (
+            SenseSerializer(first_sense, context=serializer_context).data if first_sense else None
+        )
+
+        additional_qs = senses_qs[1:]
+        additional_senses_data = SenseSerializer(
+            additional_qs, many=True, context=serializer_context
+        ).data if additional_qs else []
+
+        return Response(
+            {
+                "pinyin_numbers": lemma.pinyin_numbers,
+                "sense": first_sense_data,
+                "senses_count": senses_qs.count(),
+                "additional_senses": additional_senses_data,
+            }
+        )
 
 class SenseViewSet(viewsets.ModelViewSet):
     queryset = Sense.objects.select_related("lemma").all()

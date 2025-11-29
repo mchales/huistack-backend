@@ -7,7 +7,9 @@
     "pinyin": "yī",
     "meaning": "one",
     "strokes": 1,
-    "frequency": 42
+    "frequency": 42,
+    "name_simplified": "横",
+    "name_pinyin": "héng"
   },
   {
     "no": 2,
@@ -17,7 +19,9 @@
     "pinyin": "gǔn",
     "meaning": "line",
     "strokes": 1,
-    "frequency": 21
+    "frequency": 21,
+    "name_simplified": "竖",
+    "name_pinyin": "shù"
   },
   {
     "no": 3,
@@ -27,7 +31,9 @@
     "pinyin": "zhǔ",
     "meaning": "dot",
     "strokes": 1,
-    "frequency": 10
+    "frequency": 10,
+    "name_simplified": "点",
+    "name_pinyin": "diǎn"
   },
   {
     "no": 4,
@@ -37,7 +43,9 @@
     "pinyin": "piě",
     "meaning": "slash",
     "strokes": 1,
-    "frequency": 33
+    "frequency": 33,
+    "name_simplified": "撇",
+    "name_pinyin": "piě"
   },
   {
     "no": 5,
@@ -47,7 +55,9 @@
     "pinyin": "yǐ",
     "meaning": "second",
     "strokes": 1,
-    "frequency": 42
+    "frequency": 42,
+    "name_simplified": "乙字旁",
+    "name_pinyin": "yǐ zì páng"
   },
   {
     "no": 6,
@@ -57,7 +67,9 @@
     "pinyin": "jué",
     "meaning": "hook",
     "strokes": 1,
-    "frequency": 19
+    "frequency": 19,
+    "name_simplified": "竖钩",
+    "name_pinyin": "shù gōu"
   },
   {
     "no": 7,
@@ -67,7 +79,9 @@
     "pinyin": "èr",
     "meaning": "two",
     "strokes": 2,
-    "frequency": 29
+    "frequency": 29,
+    "name_simplified": "二字旁",
+    "name_pinyin": "èr zì páng"
   },
   {
     "no": 8,
@@ -77,7 +91,9 @@
     "pinyin": "tóu",
     "meaning": "lid",
     "strokes": 2,
-    "frequency": 38
+    "frequency": 38,
+    "name_simplified": "文字头",
+    "name_pinyin": "wén zì tóu"
   },
   {
     "no": 9,
@@ -87,7 +103,9 @@
     "pinyin": "rén",
     "meaning": "man",
     "strokes": 2,
-    "frequency": 794
+    "frequency": 794,
+    "name_simplified": "人字旁",
+    "name_pinyin": "rén zì páng"
   },
   {
     "no": 10,
@@ -97,7 +115,9 @@
     "pinyin": "ér",
     "meaning": "son, legs",
     "strokes": 2,
-    "frequency": 52
+    "frequency": 52,
+    "name_simplified": "儿字底",
+    "name_pinyin": "ér zì dǐ"
   },
   {
     "no": 11,
@@ -107,7 +127,9 @@
     "pinyin": "rù",
     "meaning": "enter",
     "strokes": 2,
-    "frequency": 28
+    "frequency": 28,
+    "name_simplified": "入字头",
+    "name_pinyin": "rù zì tóu"
   },
   {
     "no": 12,
@@ -117,7 +139,9 @@
     "pinyin": "bā",
     "meaning": "eight",
     "strokes": 2,
-    "frequency": 44
+    "frequency": 44,
+    "name_simplified": "八字头",
+    "name_pinyin": "bā zì tóu"
   },
   {
     "no": 13,
@@ -127,7 +151,9 @@
     "pinyin": "jiōng",
     "meaning": "down box",
     "strokes": 2,
-    "frequency": 50
+    "frequency": 50,
+    "name_simplified": "同字框",
+    "name_pinyin": "tóng zì kuàng"
   },
   {
     "no": 14,
@@ -137,7 +163,9 @@
     "pinyin": "mì",
     "meaning": "cover",
     "strokes": 2,
-    "frequency": 30
+    "frequency": 30,
+    "name_simplified": "秃宝盖",
+    "name_pinyin": "tū bǎo gài"
   },
   {
     "no": 15,
@@ -147,7 +175,9 @@
     "pinyin": "bīng",
     "meaning": "ice",
     "strokes": 2,
-    "frequency": 115
+    "frequency": 115,
+    "name_simplified": "两点水",
+    "name_pinyin": "liǎng diǎn shuǐ"
   },
   {
     "no": 16,
@@ -157,7 +187,9 @@
     "pinyin": "jī",
     "meaning": "table",
     "strokes": 2,
-    "frequency": 38
+    "frequency": 38,
+    "name_simplified": "几字旁",
+    "name_pinyin": "jī zì páng"
   },
   {
     "no": 17,
@@ -167,7 +199,9 @@
     "pinyin": "qū",
     "meaning": "open box",
     "strokes": 2,
-    "frequency": 23
+    "frequency": 23,
+    "name_simplified": "凶字框",
+    "name_pinyin": "xiōng zì kuàng"
   },
   {
     "no": 18,
@@ -177,7 +211,9 @@
     "pinyin": "dāo",
     "meaning": "knife",
     "strokes": 2,
-    "frequency": 377
+    "frequency": 377,
+    "name_simplified": "刀字旁",
+    "name_pinyin": "dāo zì páng"
   },
   {
     "no": 19,
@@ -187,7 +223,9 @@
     "pinyin": "lì",
     "meaning": "power",
     "strokes": 2,
-    "frequency": 163
+    "frequency": 163,
+    "name_simplified": "力字旁",
+    "name_pinyin": "lì zì páng"
   },
   {
     "no": 20,
@@ -197,7 +235,9 @@
     "pinyin": "bāo",
     "meaning": "wrap",
     "strokes": 2,
-    "frequency": 64
+    "frequency": 64,
+    "name_simplified": "包字头",
+    "name_pinyin": "bāo zì tóu"
   },
   {
     "no": 21,
@@ -207,7 +247,9 @@
     "pinyin": "bǐ",
     "meaning": "spoon",
     "strokes": 2,
-    "frequency": 19
+    "frequency": 19,
+    "name_simplified": "匕字旁",
+    "name_pinyin": "bǐ zì páng"
   },
   {
     "no": 22,
@@ -217,7 +259,9 @@
     "pinyin": "fāng",
     "meaning": "right open box",
     "strokes": 2,
-    "frequency": 64
+    "frequency": 64,
+    "name_simplified": "三匡栏",
+    "name_pinyin": "sān kuāng lán"
   },
   {
     "no": 23,
@@ -227,7 +271,9 @@
     "pinyin": "xǐ/xì",
     "meaning": "hiding enclosure",
     "strokes": 2,
-    "frequency": 17
+    "frequency": 17,
+    "name_simplified": "区字框",
+    "name_pinyin": "qū zì kuàng"
   },
   {
     "no": 24,
@@ -237,7 +283,9 @@
     "pinyin": "shí",
     "meaning": "ten",
     "strokes": 2,
-    "frequency": 55
+    "frequency": 55,
+    "name_simplified": "十字儿",
+    "name_pinyin": "shí zì er"
   },
   {
     "no": 25,
@@ -247,7 +295,9 @@
     "pinyin": "bǔ",
     "meaning": "divination",
     "strokes": 2,
-    "frequency": 45
+    "frequency": 45,
+    "name_simplified": "卜字旁",
+    "name_pinyin": "bǔ zì páng"
   },
   {
     "no": 26,
@@ -257,7 +307,9 @@
     "pinyin": "jié",
     "meaning": "seal",
     "strokes": 2,
-    "frequency": 40
+    "frequency": 40,
+    "name_simplified": "单耳刀",
+    "name_pinyin": "dān ěr dāo"
   },
   {
     "no": 27,
@@ -267,7 +319,9 @@
     "pinyin": "hàn",
     "meaning": "cliff",
     "strokes": 2,
-    "frequency": 129
+    "frequency": 129,
+    "name_simplified": "厂字头",
+    "name_pinyin": "chǎng zì tóu"
   },
   {
     "no": 28,
@@ -277,7 +331,9 @@
     "pinyin": "sī",
     "meaning": "private",
     "strokes": 2,
-    "frequency": 40
+    "frequency": 40,
+    "name_simplified": "私字儿",
+    "name_pinyin": "sī zì er"
   },
   {
     "no": 29,
@@ -287,7 +343,9 @@
     "pinyin": "yòu",
     "meaning": "again",
     "strokes": 2,
-    "frequency": 91
+    "frequency": 91,
+    "name_simplified": "又字旁",
+    "name_pinyin": "yòu zì páng"
   },
   {
     "no": 30,
@@ -297,7 +355,9 @@
     "pinyin": "kǒu",
     "meaning": "mouth",
     "strokes": 3,
-    "frequency": 1146
+    "frequency": 1146,
+    "name_simplified": "口字旁",
+    "name_pinyin": "kǒu zì páng"
   },
   {
     "no": 31,
@@ -307,7 +367,9 @@
     "pinyin": "wéi",
     "meaning": "enclosure",
     "strokes": 3,
-    "frequency": 118
+    "frequency": 118,
+    "name_simplified": "国字框",
+    "name_pinyin": "guó zì kuàng"
   },
   {
     "no": 32,
@@ -317,7 +379,9 @@
     "pinyin": "tǔ",
     "meaning": "earth",
     "strokes": 3,
-    "frequency": 580
+    "frequency": 580,
+    "name_simplified": "土字旁",
+    "name_pinyin": "tǔ zì páng"
   },
   {
     "no": 33,
@@ -327,7 +391,9 @@
     "pinyin": "shì",
     "meaning": "scholar",
     "strokes": 3,
-    "frequency": 24
+    "frequency": 24,
+    "name_simplified": "士字旁",
+    "name_pinyin": "shì zì páng"
   },
   {
     "no": 34,
@@ -337,7 +403,9 @@
     "pinyin": "zhǐ",
     "meaning": "go",
     "strokes": 3,
-    "frequency": 11
+    "frequency": 11,
+    "name_simplified": "折文",
+    "name_pinyin": "zhé wén"
   },
   {
     "no": 35,
@@ -347,7 +415,9 @@
     "pinyin": "suī",
     "meaning": "go slowly",
     "strokes": 3,
-    "frequency": 23
+    "frequency": 23,
+    "name_simplified": "冬字头",
+    "name_pinyin": "dōng zì tóu"
   },
   {
     "no": 36,
@@ -357,7 +427,9 @@
     "pinyin": "xī",
     "meaning": "evening",
     "strokes": 3,
-    "frequency": 34
+    "frequency": 34,
+    "name_simplified": "夕字旁",
+    "name_pinyin": "xī zì páng"
   },
   {
     "no": 37,
@@ -367,7 +439,9 @@
     "pinyin": "dà",
     "meaning": "big",
     "strokes": 3,
-    "frequency": 132
+    "frequency": 132,
+    "name_simplified": "大字旁",
+    "name_pinyin": "dà zì páng"
   },
   {
     "no": 38,
@@ -377,7 +451,9 @@
     "pinyin": "nǚ",
     "meaning": "woman",
     "strokes": 3,
-    "frequency": 681
+    "frequency": 681,
+    "name_simplified": "女字旁",
+    "name_pinyin": "nǚ zì páng"
   },
   {
     "no": 39,
@@ -387,7 +463,9 @@
     "pinyin": "zǐ",
     "meaning": "child",
     "strokes": 3,
-    "frequency": 83
+    "frequency": 83,
+    "name_simplified": "子字旁",
+    "name_pinyin": "zǐ zì páng"
   },
   {
     "no": 40,
@@ -397,7 +475,9 @@
     "pinyin": "mián",
     "meaning": "roof",
     "strokes": 3,
-    "frequency": 246
+    "frequency": 246,
+    "name_simplified": "宝盖头",
+    "name_pinyin": "bǎo gài tóu"
   },
   {
     "no": 41,
@@ -407,7 +487,9 @@
     "pinyin": "cùn",
     "meaning": "inch",
     "strokes": 3,
-    "frequency": 40
+    "frequency": 40,
+    "name_simplified": "寸字旁",
+    "name_pinyin": "cùn zì páng"
   },
   {
     "no": 42,
@@ -417,7 +499,9 @@
     "pinyin": "xiǎo",
     "meaning": "small",
     "strokes": 3,
-    "frequency": 41
+    "frequency": 41,
+    "name_simplified": "小字旁",
+    "name_pinyin": "xiǎo zì páng"
   },
   {
     "no": 43,
@@ -427,7 +511,9 @@
     "pinyin": "wāng",
     "meaning": "lame",
     "strokes": 3,
-    "frequency": 66
+    "frequency": 66,
+    "name_simplified": "尤字旁",
+    "name_pinyin": "yóu zì páng"
   },
   {
     "no": 44,
@@ -437,7 +523,9 @@
     "pinyin": "shī",
     "meaning": "corpse",
     "strokes": 3,
-    "frequency": 148
+    "frequency": 148,
+    "name_simplified": "尸字头",
+    "name_pinyin": "shī zì tóu"
   },
   {
     "no": 45,
@@ -447,7 +535,9 @@
     "pinyin": "chè",
     "meaning": "sprout",
     "strokes": 3,
-    "frequency": 38
+    "frequency": 38,
+    "name_simplified": "草字底",
+    "name_pinyin": "cǎo zì dǐ"
   },
   {
     "no": 46,
@@ -457,7 +547,9 @@
     "pinyin": "shān",
     "meaning": "mountain",
     "strokes": 3,
-    "frequency": 636
+    "frequency": 636,
+    "name_simplified": "山字旁",
+    "name_pinyin": "shān zì páng"
   },
   {
     "no": 47,
@@ -467,7 +559,9 @@
     "pinyin": "chuān",
     "meaning": "river",
     "strokes": 3,
-    "frequency": 26
+    "frequency": 26,
+    "name_simplified": "三拐儿",
+    "name_pinyin": "sān guǎi er"
   },
   {
     "no": 48,
@@ -477,7 +571,9 @@
     "pinyin": "gōng",
     "meaning": "work",
     "strokes": 3,
-    "frequency": 17
+    "frequency": 17,
+    "name_simplified": "工字旁",
+    "name_pinyin": "gōng zì páng"
   },
   {
     "no": 49,
@@ -487,7 +583,9 @@
     "pinyin": "jǐ",
     "meaning": "oneself",
     "strokes": 3,
-    "frequency": 20
+    "frequency": 20,
+    "name_simplified": "己字旁",
+    "name_pinyin": "jǐ zì páng"
   },
   {
     "no": 50,
@@ -497,7 +595,9 @@
     "pinyin": "jīn",
     "meaning": "turban",
     "strokes": 3,
-    "frequency": 295
+    "frequency": 295,
+    "name_simplified": "巾字旁",
+    "name_pinyin": "jīn zì páng"
   },
   {
     "no": 51,
@@ -507,7 +607,9 @@
     "pinyin": "gān",
     "meaning": "dry",
     "strokes": 3,
-    "frequency": 9
+    "frequency": 9,
+    "name_simplified": "干字旁",
+    "name_pinyin": "gān zì páng"
   },
   {
     "no": 52,
@@ -517,7 +619,9 @@
     "pinyin": "yāo",
     "meaning": "short thread",
     "strokes": 3,
-    "frequency": 50
+    "frequency": 50,
+    "name_simplified": "幺字旁",
+    "name_pinyin": "yāo zì páng"
   },
   {
     "no": 53,
@@ -527,7 +631,9 @@
     "pinyin": "guǎng",
     "meaning": "dotted cliff",
     "strokes": 3,
-    "frequency": 15
+    "frequency": 15,
+    "name_simplified": "广字头",
+    "name_pinyin": "guǎng zì tóu"
   },
   {
     "no": 54,
@@ -537,7 +643,9 @@
     "pinyin": "yǐn",
     "meaning": "long stride",
     "strokes": 3,
-    "frequency": 9
+    "frequency": 9,
+    "name_simplified": "建字底",
+    "name_pinyin": "jiàn zì dǐ"
   },
   {
     "no": 55,
@@ -547,7 +655,9 @@
     "pinyin": "gǒng",
     "meaning": "two hands",
     "strokes": 3,
-    "frequency": 50
+    "frequency": 50,
+    "name_simplified": "弄字底",
+    "name_pinyin": "nòng zì dǐ"
   },
   {
     "no": 56,
@@ -557,7 +667,9 @@
     "pinyin": "yì",
     "meaning": "shoot",
     "strokes": 3,
-    "frequency": 15
+    "frequency": 15,
+    "name_simplified": "弋字旁",
+    "name_pinyin": "yì zì páng"
   },
   {
     "no": 57,
@@ -567,7 +679,9 @@
     "pinyin": "gōng",
     "meaning": "bow",
     "strokes": 3,
-    "frequency": 165
+    "frequency": 165,
+    "name_simplified": "弓字旁",
+    "name_pinyin": "gōng zì páng"
   },
   {
     "no": 58,
@@ -577,7 +691,9 @@
     "pinyin": "jì",
     "meaning": "snout",
     "strokes": 3,
-    "frequency": 25
+    "frequency": 25,
+    "name_simplified": "雪字底",
+    "name_pinyin": "xuě zì dǐ"
   },
   {
     "no": 59,
@@ -587,7 +703,9 @@
     "pinyin": "shān",
     "meaning": "bristle",
     "strokes": 3,
-    "frequency": 62
+    "frequency": 62,
+    "name_simplified": "三撇儿",
+    "name_pinyin": "sān piě er"
   },
   {
     "no": 60,
@@ -597,7 +715,9 @@
     "pinyin": "chì",
     "meaning": "step",
     "strokes": 3,
-    "frequency": 215
+    "frequency": 215,
+    "name_simplified": "双人旁",
+    "name_pinyin": "shuāng rén páng"
   },
   {
     "no": 61,
@@ -607,7 +727,9 @@
     "pinyin": "xīn",
     "meaning": "heart",
     "strokes": 4,
-    "frequency": 1115
+    "frequency": 1115,
+    "name_simplified": "心字底",
+    "name_pinyin": "xīn zì dǐ"
   },
   {
     "no": 62,
@@ -617,7 +739,9 @@
     "pinyin": "gē",
     "meaning": "halberd",
     "strokes": 4,
-    "frequency": 116
+    "frequency": 116,
+    "name_simplified": "戈字旁",
+    "name_pinyin": "gē zì páng"
   },
   {
     "no": 63,
@@ -627,7 +751,9 @@
     "pinyin": "hù",
     "meaning": "door",
     "strokes": 4,
-    "frequency": 44
+    "frequency": 44,
+    "name_simplified": "户字头",
+    "name_pinyin": "hù zì tóu"
   },
   {
     "no": 64,
@@ -637,7 +763,9 @@
     "pinyin": "shǒu",
     "meaning": "hand",
     "strokes": 4,
-    "frequency": 1203
+    "frequency": 1203,
+    "name_simplified": "手字旁",
+    "name_pinyin": "shǒu zì páng"
   },
   {
     "no": 65,
@@ -647,7 +775,9 @@
     "pinyin": "zhī",
     "meaning": "branch",
     "strokes": 4,
-    "frequency": 26
+    "frequency": 26,
+    "name_simplified": "支字旁",
+    "name_pinyin": "zhī zì páng"
   },
   {
     "no": 66,
@@ -657,7 +787,9 @@
     "pinyin": "pū",
     "meaning": "rap",
     "strokes": 4,
-    "frequency": 296
+    "frequency": 296,
+    "name_simplified": "攴字旁",
+    "name_pinyin": "pū zì páng"
   },
   {
     "no": 67,
@@ -667,7 +799,9 @@
     "pinyin": "wén",
     "meaning": "script",
     "strokes": 4,
-    "frequency": 26
+    "frequency": 26,
+    "name_simplified": "文字旁",
+    "name_pinyin": "wén zì páng"
   },
   {
     "no": 68,
@@ -677,7 +811,9 @@
     "pinyin": "dǒu",
     "meaning": "dipper",
     "strokes": 4,
-    "frequency": 32
+    "frequency": 32,
+    "name_simplified": "斗字旁",
+    "name_pinyin": "dǒu zì páng"
   },
   {
     "no": 69,
@@ -687,7 +823,9 @@
     "pinyin": "jīn",
     "meaning": "axe",
     "strokes": 4,
-    "frequency": 55
+    "frequency": 55,
+    "name_simplified": "斤字旁",
+    "name_pinyin": "jīn zì páng"
   },
   {
     "no": 70,
@@ -697,7 +835,9 @@
     "pinyin": "fāng",
     "meaning": "square",
     "strokes": 4,
-    "frequency": 92
+    "frequency": 92,
+    "name_simplified": "方字旁",
+    "name_pinyin": "fāng zì páng"
   },
   {
     "no": 71,
@@ -707,7 +847,9 @@
     "pinyin": "wú",
     "meaning": "not",
     "strokes": 4,
-    "frequency": 12
+    "frequency": 12,
+    "name_simplified": "无字旁",
+    "name_pinyin": "wú zì páng"
   },
   {
     "no": 72,
@@ -717,7 +859,9 @@
     "pinyin": "rì",
     "meaning": "sun",
     "strokes": 4,
-    "frequency": 453
+    "frequency": 453,
+    "name_simplified": "日字旁",
+    "name_pinyin": "rì zì páng"
   },
   {
     "no": 73,
@@ -727,7 +871,9 @@
     "pinyin": "yuē",
     "meaning": "say",
     "strokes": 4,
-    "frequency": 37
+    "frequency": 37,
+    "name_simplified": "曰字旁",
+    "name_pinyin": "yuē zì páng"
   },
   {
     "no": 74,
@@ -737,7 +883,9 @@
     "pinyin": "yuè",
     "meaning": "moon",
     "strokes": 4,
-    "frequency": 69
+    "frequency": 69,
+    "name_simplified": "月字旁",
+    "name_pinyin": "yuè zì páng"
   },
   {
     "no": 75,
@@ -747,7 +895,9 @@
     "pinyin": "mù",
     "meaning": "tree",
     "strokes": 4,
-    "frequency": 1369
+    "frequency": 1369,
+    "name_simplified": "木字旁",
+    "name_pinyin": "mù zì páng"
   },
   {
     "no": 76,
@@ -757,7 +907,9 @@
     "pinyin": "qiàn",
     "meaning": "lack",
     "strokes": 4,
-    "frequency": 235
+    "frequency": 235,
+    "name_simplified": "欠字旁",
+    "name_pinyin": "qiàn zì páng"
   },
   {
     "no": 77,
@@ -767,7 +919,9 @@
     "pinyin": "zhǐ",
     "meaning": "stop",
     "strokes": 4,
-    "frequency": 99
+    "frequency": 99,
+    "name_simplified": "止字旁",
+    "name_pinyin": "zhǐ zì páng"
   },
   {
     "no": 78,
@@ -777,7 +931,9 @@
     "pinyin": "dǎi",
     "meaning": "death",
     "strokes": 4,
-    "frequency": 231
+    "frequency": 231,
+    "name_simplified": "歹字旁",
+    "name_pinyin": "dǎi zì páng"
   },
   {
     "no": 79,
@@ -787,7 +943,9 @@
     "pinyin": "shū",
     "meaning": "weapon",
     "strokes": 4,
-    "frequency": 93
+    "frequency": 93,
+    "name_simplified": "殳字旁",
+    "name_pinyin": "shū zì páng"
   },
   {
     "no": 80,
@@ -797,7 +955,9 @@
     "pinyin": "wú",
     "meaning": "do not",
     "strokes": 4,
-    "frequency": 16
+    "frequency": 16,
+    "name_simplified": "毋字旁",
+    "name_pinyin": "wú zì páng"
   },
   {
     "no": 81,
@@ -807,7 +967,9 @@
     "pinyin": "bǐ",
     "meaning": "compare",
     "strokes": 4,
-    "frequency": 21
+    "frequency": 21,
+    "name_simplified": "比字旁",
+    "name_pinyin": "bǐ zì páng"
   },
   {
     "no": 82,
@@ -817,7 +979,9 @@
     "pinyin": "máo",
     "meaning": "fur",
     "strokes": 4,
-    "frequency": 211
+    "frequency": 211,
+    "name_simplified": "毛字旁",
+    "name_pinyin": "máo zì páng"
   },
   {
     "no": 83,
@@ -827,7 +991,9 @@
     "pinyin": "shì",
     "meaning": "clan",
     "strokes": 4,
-    "frequency": 10
+    "frequency": 10,
+    "name_simplified": "氏字旁",
+    "name_pinyin": "shì zì páng"
   },
   {
     "no": 84,
@@ -837,7 +1003,9 @@
     "pinyin": "qì",
     "meaning": "steam",
     "strokes": 4,
-    "frequency": 17
+    "frequency": 17,
+    "name_simplified": "气字头",
+    "name_pinyin": "qì zì tóu"
   },
   {
     "no": 85,
@@ -847,7 +1015,9 @@
     "pinyin": "shuǐ",
     "meaning": "water",
     "strokes": 4,
-    "frequency": 1595
+    "frequency": 1595,
+    "name_simplified": "水字旁",
+    "name_pinyin": "shuǐ zì páng"
   },
   {
     "no": 86,
@@ -857,7 +1027,9 @@
     "pinyin": "huǒ",
     "meaning": "fire",
     "strokes": 4,
-    "frequency": 639
+    "frequency": 639,
+    "name_simplified": "火字旁",
+    "name_pinyin": "huǒ zì páng"
   },
   {
     "no": 87,
@@ -867,7 +1039,9 @@
     "pinyin": "zhǎo",
     "meaning": "claw",
     "strokes": 4,
-    "frequency": 36
+    "frequency": 36,
+    "name_simplified": "爪字头",
+    "name_pinyin": "zhǎo zì tóu"
   },
   {
     "no": 88,
@@ -877,7 +1051,9 @@
     "pinyin": "fù",
     "meaning": "father",
     "strokes": 4,
-    "frequency": 10
+    "frequency": 10,
+    "name_simplified": "父字头",
+    "name_pinyin": "fù zì tóu"
   },
   {
     "no": 89,
@@ -887,7 +1063,9 @@
     "pinyin": "yáo",
     "meaning": "double x",
     "strokes": 4,
-    "frequency": 16
+    "frequency": 16,
+    "name_simplified": "爻字旁",
+    "name_pinyin": "yáo zì páng"
   },
   {
     "no": 90,
@@ -897,7 +1075,9 @@
     "pinyin": "qiáng",
     "meaning": "half tree trunk",
     "strokes": 4,
-    "frequency": 48
+    "frequency": 48,
+    "name_simplified": "爿字旁",
+    "name_pinyin": "qiáng zì páng"
   },
   {
     "no": 91,
@@ -907,7 +1087,9 @@
     "pinyin": "piàn",
     "meaning": "slice",
     "strokes": 4,
-    "frequency": 77
+    "frequency": 77,
+    "name_simplified": "片字旁",
+    "name_pinyin": "piàn zì páng"
   },
   {
     "no": 92,
@@ -917,7 +1099,9 @@
     "pinyin": "yá",
     "meaning": "fang",
     "strokes": 4,
-    "frequency": 9
+    "frequency": 9,
+    "name_simplified": "牙字旁",
+    "name_pinyin": "yá zì páng"
   },
   {
     "no": 93,
@@ -927,7 +1111,9 @@
     "pinyin": "niú",
     "meaning": "cow",
     "strokes": 4,
-    "frequency": 233
+    "frequency": 233,
+    "name_simplified": "牛字旁",
+    "name_pinyin": "niú zì páng"
   },
   {
     "no": 94,
@@ -937,7 +1123,9 @@
     "pinyin": "quǎn",
     "meaning": "dog",
     "strokes": 4,
-    "frequency": 444
+    "frequency": 444,
+    "name_simplified": "犬字旁",
+    "name_pinyin": "quǎn zì páng"
   },
   {
     "no": 95,
@@ -947,7 +1135,9 @@
     "pinyin": "xuán",
     "meaning": "profound",
     "strokes": 5,
-    "frequency": 6
+    "frequency": 6,
+    "name_simplified": "玄字旁",
+    "name_pinyin": "xuán zì páng"
   },
   {
     "no": 96,
@@ -957,7 +1147,9 @@
     "pinyin": "yù",
     "meaning": "jade",
     "strokes": 5,
-    "frequency": 473
+    "frequency": 473,
+    "name_simplified": "玉字旁",
+    "name_pinyin": "yù zì páng"
   },
   {
     "no": 97,
@@ -967,7 +1159,9 @@
     "pinyin": "guā",
     "meaning": "melon",
     "strokes": 5,
-    "frequency": 55
+    "frequency": 55,
+    "name_simplified": "瓜字旁",
+    "name_pinyin": "guā zì páng"
   },
   {
     "no": 98,
@@ -977,7 +1171,9 @@
     "pinyin": "wǎ",
     "meaning": "tile",
     "strokes": 5,
-    "frequency": 174
+    "frequency": 174,
+    "name_simplified": "瓦字旁",
+    "name_pinyin": "wǎ zì páng"
   },
   {
     "no": 99,
@@ -987,7 +1183,9 @@
     "pinyin": "gān",
     "meaning": "sweet",
     "strokes": 5,
-    "frequency": 22
+    "frequency": 22,
+    "name_simplified": "甘字旁",
+    "name_pinyin": "gān zì páng"
   },
   {
     "no": 100,
@@ -997,7 +1195,9 @@
     "pinyin": "shēng",
     "meaning": "life",
     "strokes": 5,
-    "frequency": 22
+    "frequency": 22,
+    "name_simplified": "生字旁",
+    "name_pinyin": "shēng zì páng"
   },
   {
     "no": 101,
@@ -1007,7 +1207,9 @@
     "pinyin": "yòng",
     "meaning": "use",
     "strokes": 5,
-    "frequency": 10
+    "frequency": 10,
+    "name_simplified": "用字旁",
+    "name_pinyin": "yòng zì páng"
   },
   {
     "no": 102,
@@ -1017,7 +1219,9 @@
     "pinyin": "tián",
     "meaning": "field",
     "strokes": 5,
-    "frequency": 192
+    "frequency": 192,
+    "name_simplified": "田字旁",
+    "name_pinyin": "tián zì páng"
   },
   {
     "no": 103,
@@ -1027,7 +1231,9 @@
     "pinyin": "pǐ",
     "meaning": "bolt of cloth",
     "strokes": 5,
-    "frequency": 15
+    "frequency": 15,
+    "name_simplified": "疋字旁",
+    "name_pinyin": "pǐ zì páng"
   },
   {
     "no": 104,
@@ -1037,7 +1243,9 @@
     "pinyin": "nè",
     "meaning": "sickness",
     "strokes": 5,
-    "frequency": 526
+    "frequency": 526,
+    "name_simplified": "病字头",
+    "name_pinyin": "bìng zì tóu"
   },
   {
     "no": 105,
@@ -1047,7 +1255,9 @@
     "pinyin": "bō",
     "meaning": "dotted tent, legs",
     "strokes": 5,
-    "frequency": 15
+    "frequency": 15,
+    "name_simplified": "登字头",
+    "name_pinyin": "dēng zì tóu"
   },
   {
     "no": 106,
@@ -1057,7 +1267,9 @@
     "pinyin": "bái",
     "meaning": "white",
     "strokes": 5,
-    "frequency": 109
+    "frequency": 109,
+    "name_simplified": "白字旁",
+    "name_pinyin": "bái zì páng"
   },
   {
     "no": 107,
@@ -1067,7 +1279,9 @@
     "pinyin": "pí",
     "meaning": "skin",
     "strokes": 5,
-    "frequency": 94
+    "frequency": 94,
+    "name_simplified": "皮字旁",
+    "name_pinyin": "pí zì páng"
   },
   {
     "no": 108,
@@ -1077,7 +1291,9 @@
     "pinyin": "mǐn",
     "meaning": "dish",
     "strokes": 5,
-    "frequency": 129
+    "frequency": 129,
+    "name_simplified": "皿字底",
+    "name_pinyin": "mǐn zì dǐ"
   },
   {
     "no": 109,
@@ -1087,7 +1303,9 @@
     "pinyin": "mù",
     "meaning": "eye",
     "strokes": 5,
-    "frequency": 647
+    "frequency": 647,
+    "name_simplified": "目字旁",
+    "name_pinyin": "mù zì páng"
   },
   {
     "no": 110,
@@ -1097,7 +1315,9 @@
     "pinyin": "máo",
     "meaning": "spear",
     "strokes": 5,
-    "frequency": 65
+    "frequency": 65,
+    "name_simplified": "矛字旁",
+    "name_pinyin": "máo zì páng"
   },
   {
     "no": 111,
@@ -1107,7 +1327,9 @@
     "pinyin": "shǐ",
     "meaning": "arrow",
     "strokes": 5,
-    "frequency": 64
+    "frequency": 64,
+    "name_simplified": "矢字旁",
+    "name_pinyin": "shǐ zì páng"
   },
   {
     "no": 112,
@@ -1117,7 +1339,9 @@
     "pinyin": "shí",
     "meaning": "stone",
     "strokes": 5,
-    "frequency": 499
+    "frequency": 499,
+    "name_simplified": "石字旁",
+    "name_pinyin": "shí zì páng"
   },
   {
     "no": 113,
@@ -1127,7 +1351,9 @@
     "pinyin": "shì",
     "meaning": "spirit",
     "strokes": 5,
-    "frequency": 213
+    "frequency": 213,
+    "name_simplified": "示字旁",
+    "name_pinyin": "shì zì páng"
   },
   {
     "no": 114,
@@ -1137,7 +1363,9 @@
     "pinyin": "róu",
     "meaning": "track",
     "strokes": 5,
-    "frequency": 12
+    "frequency": 12,
+    "name_simplified": "禸字旁",
+    "name_pinyin": "róu zì páng"
   },
   {
     "no": 115,
@@ -1147,7 +1375,9 @@
     "pinyin": "hé",
     "meaning": "grain",
     "strokes": 5,
-    "frequency": 431
+    "frequency": 431,
+    "name_simplified": "禾木旁",
+    "name_pinyin": "hé mù páng"
   },
   {
     "no": 116,
@@ -1157,7 +1387,9 @@
     "pinyin": "xué",
     "meaning": "cave",
     "strokes": 5,
-    "frequency": 298
+    "frequency": 298,
+    "name_simplified": "穴宝盖",
+    "name_pinyin": "xué bǎo gài"
   },
   {
     "no": 117,
@@ -1167,7 +1399,9 @@
     "pinyin": "lì",
     "meaning": "stand",
     "strokes": 5,
-    "frequency": 101
+    "frequency": 101,
+    "name_simplified": "立字旁",
+    "name_pinyin": "lì zì páng"
   },
   {
     "no": 118,
@@ -1177,7 +1411,9 @@
     "pinyin": "zhú",
     "meaning": "bamboo",
     "strokes": 6,
-    "frequency": 953
+    "frequency": 953,
+    "name_simplified": "竹字头",
+    "name_pinyin": "zhú zì tóu"
   },
   {
     "no": 119,
@@ -1187,7 +1423,9 @@
     "pinyin": "mǐ",
     "meaning": "rice",
     "strokes": 6,
-    "frequency": 318
+    "frequency": 318,
+    "name_simplified": "米字旁",
+    "name_pinyin": "mǐ zì páng"
   },
   {
     "no": 120,
@@ -1197,7 +1435,9 @@
     "pinyin": "mì",
     "meaning": "silk",
     "strokes": 6,
-    "frequency": 823
+    "frequency": 823,
+    "name_simplified": "糸字旁",
+    "name_pinyin": "mì zì páng"
   },
   {
     "no": 121,
@@ -1207,7 +1447,9 @@
     "pinyin": "fǒu",
     "meaning": "jar",
     "strokes": 6,
-    "frequency": 77
+    "frequency": 77,
+    "name_simplified": "缶字旁",
+    "name_pinyin": "fǒu zì páng"
   },
   {
     "no": 122,
@@ -1217,7 +1459,9 @@
     "pinyin": "wǎng",
     "meaning": "net",
     "strokes": 6,
-    "frequency": 163
+    "frequency": 163,
+    "name_simplified": "网字头",
+    "name_pinyin": "wǎng zì tóu"
   },
   {
     "no": 123,
@@ -1227,7 +1471,9 @@
     "pinyin": "yáng",
     "meaning": "sheep",
     "strokes": 6,
-    "frequency": 156
+    "frequency": 156,
+    "name_simplified": "羊字旁",
+    "name_pinyin": "yáng zì páng"
   },
   {
     "no": 124,
@@ -1237,7 +1483,9 @@
     "pinyin": "yǔ",
     "meaning": "feather",
     "strokes": 6,
-    "frequency": 220
+    "frequency": 220,
+    "name_simplified": "羽字旁",
+    "name_pinyin": "yǔ zì páng"
   },
   {
     "no": 125,
@@ -1247,7 +1495,9 @@
     "pinyin": "lǎo",
     "meaning": "old",
     "strokes": 6,
-    "frequency": 22
+    "frequency": 22,
+    "name_simplified": "老字头",
+    "name_pinyin": "lǎo zì tóu"
   },
   {
     "no": 126,
@@ -1257,7 +1507,9 @@
     "pinyin": "ér",
     "meaning": "and",
     "strokes": 6,
-    "frequency": 22
+    "frequency": 22,
+    "name_simplified": "而字旁",
+    "name_pinyin": "ér zì páng"
   },
   {
     "no": 127,
@@ -1267,7 +1519,9 @@
     "pinyin": "lěi",
     "meaning": "plow",
     "strokes": 6,
-    "frequency": 84
+    "frequency": 84,
+    "name_simplified": "耒字旁",
+    "name_pinyin": "lěi zì páng"
   },
   {
     "no": 128,
@@ -1277,7 +1531,9 @@
     "pinyin": "ěr",
     "meaning": "ear",
     "strokes": 6,
-    "frequency": 172
+    "frequency": 172,
+    "name_simplified": "耳字旁",
+    "name_pinyin": "ěr zì páng"
   },
   {
     "no": 129,
@@ -1287,7 +1543,9 @@
     "pinyin": "yù",
     "meaning": "brush",
     "strokes": 6,
-    "frequency": 19
+    "frequency": 19,
+    "name_simplified": "聿字旁",
+    "name_pinyin": "yù zì páng"
   },
   {
     "no": 130,
@@ -1297,7 +1555,9 @@
     "pinyin": "ròu",
     "meaning": "meat",
     "strokes": 6,
-    "frequency": 674
+    "frequency": 674,
+    "name_simplified": "肉字旁",
+    "name_pinyin": "ròu zì páng"
   },
   {
     "no": 131,
@@ -1307,7 +1567,9 @@
     "pinyin": "chén",
     "meaning": "minister",
     "strokes": 6,
-    "frequency": 16
+    "frequency": 16,
+    "name_simplified": "臣字旁",
+    "name_pinyin": "chén zì páng"
   },
   {
     "no": 132,
@@ -1317,7 +1579,9 @@
     "pinyin": "zì",
     "meaning": "self",
     "strokes": 6,
-    "frequency": 34
+    "frequency": 34,
+    "name_simplified": "自字旁",
+    "name_pinyin": "zì zì páng"
   },
   {
     "no": 133,
@@ -1327,7 +1591,9 @@
     "pinyin": "zhì",
     "meaning": "arrive",
     "strokes": 6,
-    "frequency": 24
+    "frequency": 24,
+    "name_simplified": "至字旁",
+    "name_pinyin": "zhì zì páng"
   },
   {
     "no": 134,
@@ -1337,7 +1603,9 @@
     "pinyin": "jiù",
     "meaning": "mortar",
     "strokes": 6,
-    "frequency": 71
+    "frequency": 71,
+    "name_simplified": "臼字旁",
+    "name_pinyin": "jiù zì páng"
   },
   {
     "no": 135,
@@ -1347,7 +1615,9 @@
     "pinyin": "shé",
     "meaning": "tongue",
     "strokes": 6,
-    "frequency": 31
+    "frequency": 31,
+    "name_simplified": "舌字旁",
+    "name_pinyin": "shé zì páng"
   },
   {
     "no": 136,
@@ -1357,7 +1627,9 @@
     "pinyin": "chuǎn",
     "meaning": "oppose",
     "strokes": 6,
-    "frequency": 10
+    "frequency": 10,
+    "name_simplified": "舛字旁",
+    "name_pinyin": "chuǎn zì páng"
   },
   {
     "no": 137,
@@ -1367,7 +1639,9 @@
     "pinyin": "zhōu",
     "meaning": "boat",
     "strokes": 6,
-    "frequency": 197
+    "frequency": 197,
+    "name_simplified": "舟字旁",
+    "name_pinyin": "zhōu zì páng"
   },
   {
     "no": 138,
@@ -1377,7 +1651,9 @@
     "pinyin": "gēn",
     "meaning": "stopping",
     "strokes": 6,
-    "frequency": 5
+    "frequency": 5,
+    "name_simplified": "艮字旁",
+    "name_pinyin": "gēn zì páng"
   },
   {
     "no": 139,
@@ -1387,7 +1663,9 @@
     "pinyin": "sè",
     "meaning": "color",
     "strokes": 6,
-    "frequency": 21
+    "frequency": 21,
+    "name_simplified": "色字旁",
+    "name_pinyin": "sè zì páng"
   },
   {
     "no": 140,
@@ -1397,7 +1675,9 @@
     "pinyin": "cǎo",
     "meaning": "grass",
     "strokes": 6,
-    "frequency": 1902
+    "frequency": 1902,
+    "name_simplified": "草字头",
+    "name_pinyin": "cǎo zì tóu"
   },
   {
     "no": 141,
@@ -1407,7 +1687,9 @@
     "pinyin": "hū",
     "meaning": "tiger",
     "strokes": 6,
-    "frequency": 114
+    "frequency": 114,
+    "name_simplified": "虎字头",
+    "name_pinyin": "hǔ zì tóu"
   },
   {
     "no": 142,
@@ -1417,7 +1699,9 @@
     "pinyin": "huǐ",
     "meaning": "insect",
     "strokes": 6,
-    "frequency": 1067
+    "frequency": 1067,
+    "name_simplified": "虫字旁",
+    "name_pinyin": "chóng zì páng"
   },
   {
     "no": 143,
@@ -1427,7 +1711,9 @@
     "pinyin": "xuè",
     "meaning": "blood",
     "strokes": 6,
-    "frequency": 60
+    "frequency": 60,
+    "name_simplified": "血字旁",
+    "name_pinyin": "xuè zì páng"
   },
   {
     "no": 144,
@@ -1437,7 +1723,9 @@
     "pinyin": "xíng",
     "meaning": "walk enclosure",
     "strokes": 6,
-    "frequency": 53
+    "frequency": 53,
+    "name_simplified": "行字旁",
+    "name_pinyin": "xíng zì páng"
   },
   {
     "no": 145,
@@ -1447,7 +1735,9 @@
     "pinyin": "yī",
     "meaning": "clothes",
     "strokes": 6,
-    "frequency": 607
+    "frequency": 607,
+    "name_simplified": "衣字旁",
+    "name_pinyin": "yī zì páng"
   },
   {
     "no": 146,
@@ -1457,7 +1747,9 @@
     "pinyin": "xī",
     "meaning": "west",
     "strokes": 6,
-    "frequency": 29
+    "frequency": 29,
+    "name_simplified": "西字头",
+    "name_pinyin": "xī zì tóu"
   },
   {
     "no": 147,
@@ -1467,7 +1759,9 @@
     "pinyin": "jiàn",
     "meaning": "see",
     "strokes": 7,
-    "frequency": 161
+    "frequency": 161,
+    "name_simplified": "见字旁",
+    "name_pinyin": "jiàn zì páng"
   },
   {
     "no": 148,
@@ -1477,7 +1771,9 @@
     "pinyin": "jiǎo",
     "meaning": "horn",
     "strokes": 7,
-    "frequency": 158
+    "frequency": 158,
+    "name_simplified": "角字旁",
+    "name_pinyin": "jiǎo zì páng"
   },
   {
     "no": 149,
@@ -1487,7 +1783,9 @@
     "pinyin": "yán",
     "meaning": "speech",
     "strokes": 7,
-    "frequency": 861
+    "frequency": 861,
+    "name_simplified": "言字旁",
+    "name_pinyin": "yán zì páng"
   },
   {
     "no": 150,
@@ -1497,7 +1795,9 @@
     "pinyin": "gǔ",
     "meaning": "valley",
     "strokes": 7,
-    "frequency": 54
+    "frequency": 54,
+    "name_simplified": "谷字旁",
+    "name_pinyin": "gǔ zì páng"
   },
   {
     "no": 151,
@@ -1507,7 +1807,9 @@
     "pinyin": "dòu",
     "meaning": "bean",
     "strokes": 7,
-    "frequency": 68
+    "frequency": 68,
+    "name_simplified": "豆字旁",
+    "name_pinyin": "dòu zì páng"
   },
   {
     "no": 152,
@@ -1517,7 +1819,9 @@
     "pinyin": "shǐ",
     "meaning": "pig",
     "strokes": 7,
-    "frequency": 148
+    "frequency": 148,
+    "name_simplified": "豕字旁",
+    "name_pinyin": "shǐ zì páng"
   },
   {
     "no": 153,
@@ -1527,7 +1831,9 @@
     "pinyin": "zhì",
     "meaning": "badger",
     "strokes": 7,
-    "frequency": 140
+    "frequency": 140,
+    "name_simplified": "豸字旁",
+    "name_pinyin": "zhì zì páng"
   },
   {
     "no": 154,
@@ -1537,7 +1843,9 @@
     "pinyin": "bèi",
     "meaning": "shell",
     "strokes": 7,
-    "frequency": 277
+    "frequency": 277,
+    "name_simplified": "贝字旁",
+    "name_pinyin": "bèi zì páng"
   },
   {
     "no": 155,
@@ -1547,7 +1855,9 @@
     "pinyin": "chì",
     "meaning": "red",
     "strokes": 7,
-    "frequency": 31
+    "frequency": 31,
+    "name_simplified": "赤字旁",
+    "name_pinyin": "chì zì páng"
   },
   {
     "no": 156,
@@ -1557,7 +1867,9 @@
     "pinyin": "zǒu",
     "meaning": "run",
     "strokes": 7,
-    "frequency": 285
+    "frequency": 285,
+    "name_simplified": "走字旁",
+    "name_pinyin": "zǒu zì páng"
   },
   {
     "no": 157,
@@ -1567,7 +1879,9 @@
     "pinyin": "zú",
     "meaning": "foot",
     "strokes": 7,
-    "frequency": 580
+    "frequency": 580,
+    "name_simplified": "足字旁",
+    "name_pinyin": "zú zì páng"
   },
   {
     "no": 158,
@@ -1577,7 +1891,9 @@
     "pinyin": "shēn",
     "meaning": "body",
     "strokes": 7,
-    "frequency": 97
+    "frequency": 97,
+    "name_simplified": "身字旁",
+    "name_pinyin": "shēn zì páng"
   },
   {
     "no": 159,
@@ -1587,7 +1903,9 @@
     "pinyin": "chē",
     "meaning": "cart",
     "strokes": 7,
-    "frequency": 361
+    "frequency": 361,
+    "name_simplified": "车字旁",
+    "name_pinyin": "chē zì páng"
   },
   {
     "no": 160,
@@ -1597,7 +1915,9 @@
     "pinyin": "xīn",
     "meaning": "bitter",
     "strokes": 7,
-    "frequency": 36
+    "frequency": 36,
+    "name_simplified": "辛字旁",
+    "name_pinyin": "xīn zì páng"
   },
   {
     "no": 161,
@@ -1607,7 +1927,9 @@
     "pinyin": "chén",
     "meaning": "morning",
     "strokes": 7,
-    "frequency": 15
+    "frequency": 15,
+    "name_simplified": "辰字旁",
+    "name_pinyin": "chén zì páng"
   },
   {
     "no": 162,
@@ -1617,7 +1939,9 @@
     "pinyin": "chuò",
     "meaning": "walk",
     "strokes": 7,
-    "frequency": 381
+    "frequency": 381,
+    "name_simplified": "走之旁",
+    "name_pinyin": "zǒu zhī páng"
   },
   {
     "no": 163,
@@ -1627,7 +1951,9 @@
     "pinyin": "yì",
     "meaning": "city",
     "strokes": 7,
-    "frequency": 350
+    "frequency": 350,
+    "name_simplified": "右耳旁",
+    "name_pinyin": "yòu ěr páng"
   },
   {
     "no": 164,
@@ -1637,7 +1963,9 @@
     "pinyin": "yǒu",
     "meaning": "wine",
     "strokes": 7,
-    "frequency": 290
+    "frequency": 290,
+    "name_simplified": "酉字旁",
+    "name_pinyin": "yǒu zì páng"
   },
   {
     "no": 165,
@@ -1647,7 +1975,9 @@
     "pinyin": "biàn",
     "meaning": "distinguish",
     "strokes": 7,
-    "frequency": 14
+    "frequency": 14,
+    "name_simplified": "釆字旁",
+    "name_pinyin": "biàn zì páng"
   },
   {
     "no": 166,
@@ -1657,7 +1987,9 @@
     "pinyin": "lǐ",
     "meaning": "village",
     "strokes": 7,
-    "frequency": 14
+    "frequency": 14,
+    "name_simplified": "里字旁",
+    "name_pinyin": "lǐ zì páng"
   },
   {
     "no": 167,
@@ -1667,7 +1999,9 @@
     "pinyin": "jīn",
     "meaning": "gold",
     "strokes": 8,
-    "frequency": 806
+    "frequency": 806,
+    "name_simplified": "金字旁",
+    "name_pinyin": "jīn zì páng"
   },
   {
     "no": 168,
@@ -1677,7 +2011,9 @@
     "pinyin": "cháng",
     "meaning": "long",
     "strokes": 8,
-    "frequency": 55
+    "frequency": 55,
+    "name_simplified": "长字旁",
+    "name_pinyin": "cháng zì páng"
   },
   {
     "no": 169,
@@ -1687,7 +2023,9 @@
     "pinyin": "mén",
     "meaning": "gate",
     "strokes": 8,
-    "frequency": 246
+    "frequency": 246,
+    "name_simplified": "门字框",
+    "name_pinyin": "mén zì kuàng"
   },
   {
     "no": 170,
@@ -1697,7 +2035,9 @@
     "pinyin": "fù",
     "meaning": "mound",
     "strokes": 8,
-    "frequency": 348
+    "frequency": 348,
+    "name_simplified": "左耳旁",
+    "name_pinyin": "zuǒ ěr páng"
   },
   {
     "no": 171,
@@ -1707,7 +2047,9 @@
     "pinyin": "lì",
     "meaning": "slave",
     "strokes": 8,
-    "frequency": 12
+    "frequency": 12,
+    "name_simplified": "隶字旁",
+    "name_pinyin": "lì zì páng"
   },
   {
     "no": 172,
@@ -1717,7 +2059,9 @@
     "pinyin": "zhuī",
     "meaning": "short-tailed bird",
     "strokes": 8,
-    "frequency": 233
+    "frequency": 233,
+    "name_simplified": "隹字旁",
+    "name_pinyin": "zhuī zì páng"
   },
   {
     "no": 173,
@@ -1727,7 +2071,9 @@
     "pinyin": "yǔ",
     "meaning": "rain",
     "strokes": 8,
-    "frequency": 298
+    "frequency": 298,
+    "name_simplified": "雨字头",
+    "name_pinyin": "yǔ zì tóu"
   },
   {
     "no": 174,
@@ -1737,7 +2083,9 @@
     "pinyin": "qīng",
     "meaning": "blue",
     "strokes": 8,
-    "frequency": 17
+    "frequency": 17,
+    "name_simplified": "青字旁",
+    "name_pinyin": "qīng zì páng"
   },
   {
     "no": 175,
@@ -1747,7 +2095,9 @@
     "pinyin": "fēi",
     "meaning": "wrong",
     "strokes": 8,
-    "frequency": 25
+    "frequency": 25,
+    "name_simplified": "非字旁",
+    "name_pinyin": "fēi zì páng"
   },
   {
     "no": 176,
@@ -1757,7 +2107,9 @@
     "pinyin": "miàn",
     "meaning": "face",
     "strokes": 9,
-    "frequency": 66
+    "frequency": 66,
+    "name_simplified": "面字旁",
+    "name_pinyin": "miàn zì páng"
   },
   {
     "no": 177,
@@ -1767,7 +2119,9 @@
     "pinyin": "gé",
     "meaning": "leather",
     "strokes": 9,
-    "frequency": 305
+    "frequency": 305,
+    "name_simplified": "革字旁",
+    "name_pinyin": "gé zì páng"
   },
   {
     "no": 178,
@@ -1777,7 +2131,9 @@
     "pinyin": "wéi",
     "meaning": "tanned leather",
     "strokes": 9,
-    "frequency": 100
+    "frequency": 100,
+    "name_simplified": "韦字旁",
+    "name_pinyin": "wéi zì páng"
   },
   {
     "no": 179,
@@ -1787,7 +2143,9 @@
     "pinyin": "jiǔ",
     "meaning": "leek",
     "strokes": 9,
-    "frequency": 20
+    "frequency": 20,
+    "name_simplified": "韭字旁",
+    "name_pinyin": "jiǔ zì páng"
   },
   {
     "no": 180,
@@ -1797,7 +2155,9 @@
     "pinyin": "yīn",
     "meaning": "sound",
     "strokes": 9,
-    "frequency": 43
+    "frequency": 43,
+    "name_simplified": "音字旁",
+    "name_pinyin": "yīn zì páng"
   },
   {
     "no": 181,
@@ -1807,7 +2167,9 @@
     "pinyin": "yè",
     "meaning": "leaf",
     "strokes": 9,
-    "frequency": 372
+    "frequency": 372,
+    "name_simplified": "页字旁",
+    "name_pinyin": "yè zì páng"
   },
   {
     "no": 182,
@@ -1817,7 +2179,9 @@
     "pinyin": "fēng",
     "meaning": "wind",
     "strokes": 9,
-    "frequency": 182
+    "frequency": 182,
+    "name_simplified": "风字旁",
+    "name_pinyin": "fēng zì páng"
   },
   {
     "no": 183,
@@ -1827,7 +2191,9 @@
     "pinyin": "fēi",
     "meaning": "fly",
     "strokes": 9,
-    "frequency": 92
+    "frequency": 92,
+    "name_simplified": "飞字旁",
+    "name_pinyin": "fēi zì páng"
   },
   {
     "no": 184,
@@ -1837,7 +2203,9 @@
     "pinyin": "shí",
     "meaning": "eat",
     "strokes": 9,
-    "frequency": 403
+    "frequency": 403,
+    "name_simplified": "食字旁",
+    "name_pinyin": "shí zì páng"
   },
   {
     "no": 185,
@@ -1847,7 +2215,9 @@
     "pinyin": "shǒu",
     "meaning": "head",
     "strokes": 9,
-    "frequency": 20
+    "frequency": 20,
+    "name_simplified": "首字旁",
+    "name_pinyin": "shǒu zì páng"
   },
   {
     "no": 186,
@@ -1857,7 +2227,9 @@
     "pinyin": "xiāng",
     "meaning": "fragrant",
     "strokes": 9,
-    "frequency": 37
+    "frequency": 37,
+    "name_simplified": "香字旁",
+    "name_pinyin": "xiāng zì páng"
   },
   {
     "no": 187,
@@ -1867,7 +2239,9 @@
     "pinyin": "mǎ",
     "meaning": "horse",
     "strokes": 10,
-    "frequency": 472
+    "frequency": 472,
+    "name_simplified": "马字旁",
+    "name_pinyin": "mǎ zì páng"
   },
   {
     "no": 188,
@@ -1877,7 +2251,9 @@
     "pinyin": "gǔ",
     "meaning": "bone",
     "strokes": 10,
-    "frequency": 185
+    "frequency": 185,
+    "name_simplified": "骨字旁",
+    "name_pinyin": "gǔ zì páng"
   },
   {
     "no": 189,
@@ -1887,7 +2263,9 @@
     "pinyin": "gāo",
     "meaning": "tall",
     "strokes": 10,
-    "frequency": 34
+    "frequency": 34,
+    "name_simplified": "高字旁",
+    "name_pinyin": "gāo zì páng"
   },
   {
     "no": 190,
@@ -1897,7 +2275,9 @@
     "pinyin": "biāo",
     "meaning": "hair",
     "strokes": 10,
-    "frequency": 243
+    "frequency": 243,
+    "name_simplified": "鬓字头",
+    "name_pinyin": "bìn zì tóu"
   },
   {
     "no": 191,
@@ -1907,7 +2287,9 @@
     "pinyin": "dòu",
     "meaning": "fight",
     "strokes": 10,
-    "frequency": 23
+    "frequency": 23,
+    "name_simplified": "斗字框",
+    "name_pinyin": "dòu zì kuàng"
   },
   {
     "no": 192,
@@ -1917,7 +2299,9 @@
     "pinyin": "chàng",
     "meaning": "sacrificial wine",
     "strokes": 10,
-    "frequency": 8
+    "frequency": 8,
+    "name_simplified": "鬯字旁",
+    "name_pinyin": "chàng zì páng"
   },
   {
     "no": 193,
@@ -1927,7 +2311,9 @@
     "pinyin": "lì",
     "meaning": "cauldron",
     "strokes": 10,
-    "frequency": 73
+    "frequency": 73,
+    "name_simplified": "鬲字旁",
+    "name_pinyin": "lì zì páng"
   },
   {
     "no": 194,
@@ -1937,7 +2323,9 @@
     "pinyin": "guǐ",
     "meaning": "ghost",
     "strokes": 10,
-    "frequency": 141
+    "frequency": 141,
+    "name_simplified": "鬼字旁",
+    "name_pinyin": "guǐ zì páng"
   },
   {
     "no": 195,
@@ -1947,7 +2335,9 @@
     "pinyin": "yú",
     "meaning": "fish",
     "strokes": 11,
-    "frequency": 571
+    "frequency": 571,
+    "name_simplified": "鱼字旁",
+    "name_pinyin": "yú zì páng"
   },
   {
     "no": 196,
@@ -1957,7 +2347,9 @@
     "pinyin": "niǎo",
     "meaning": "bird",
     "strokes": 11,
-    "frequency": 750
+    "frequency": 750,
+    "name_simplified": "鸟字旁",
+    "name_pinyin": "niǎo zì páng"
   },
   {
     "no": 197,
@@ -1967,7 +2359,9 @@
     "pinyin": "lǔ",
     "meaning": "salt",
     "strokes": 11,
-    "frequency": 44
+    "frequency": 44,
+    "name_simplified": "卤字旁",
+    "name_pinyin": "lǔ zì páng"
   },
   {
     "no": 198,
@@ -1977,7 +2371,9 @@
     "pinyin": "lù",
     "meaning": "deer",
     "strokes": 11,
-    "frequency": 104
+    "frequency": 104,
+    "name_simplified": "鹿字旁",
+    "name_pinyin": "lù zì páng"
   },
   {
     "no": 199,
@@ -1987,7 +2383,9 @@
     "pinyin": "mài",
     "meaning": "wheat",
     "strokes": 11,
-    "frequency": 131
+    "frequency": 131,
+    "name_simplified": "麦字旁",
+    "name_pinyin": "mài zì páng"
   },
   {
     "no": 200,
@@ -1997,7 +2395,9 @@
     "pinyin": "má",
     "meaning": "hemp",
     "strokes": 11,
-    "frequency": 34
+    "frequency": 34,
+    "name_simplified": "麻字旁",
+    "name_pinyin": "má zì páng"
   },
   {
     "no": 201,
@@ -2007,7 +2407,9 @@
     "pinyin": "huáng",
     "meaning": "yellow",
     "strokes": 12,
-    "frequency": 42
+    "frequency": 42,
+    "name_simplified": "黄字旁",
+    "name_pinyin": "huáng zì páng"
   },
   {
     "no": 202,
@@ -2017,7 +2419,9 @@
     "pinyin": "shǔ",
     "meaning": "millet",
     "strokes": 12,
-    "frequency": 46
+    "frequency": 46,
+    "name_simplified": "黍字旁",
+    "name_pinyin": "shǔ zì páng"
   },
   {
     "no": 203,
@@ -2027,7 +2431,9 @@
     "pinyin": "hēi",
     "meaning": "black",
     "strokes": 12,
-    "frequency": 172
+    "frequency": 172,
+    "name_simplified": "黑字旁",
+    "name_pinyin": "hēi zì páng"
   },
   {
     "no": 204,
@@ -2037,7 +2443,9 @@
     "pinyin": "zhǐ",
     "meaning": "embroidery",
     "strokes": 12,
-    "frequency": 8
+    "frequency": 8,
+    "name_simplified": "黹字旁",
+    "name_pinyin": "zhǐ zì páng"
   },
   {
     "no": 205,
@@ -2047,7 +2455,9 @@
     "pinyin": "mǐn",
     "meaning": "frog",
     "strokes": 13,
-    "frequency": 40
+    "frequency": 40,
+    "name_simplified": "黾字旁",
+    "name_pinyin": "mǐn zì páng"
   },
   {
     "no": 206,
@@ -2057,7 +2467,9 @@
     "pinyin": "dǐng",
     "meaning": "tripod",
     "strokes": 13,
-    "frequency": 14
+    "frequency": 14,
+    "name_simplified": "鼎字旁",
+    "name_pinyin": "dǐng zì páng"
   },
   {
     "no": 207,
@@ -2067,7 +2479,9 @@
     "pinyin": "gǔ",
     "meaning": "drum",
     "strokes": 13,
-    "frequency": 46
+    "frequency": 46,
+    "name_simplified": "鼓字旁",
+    "name_pinyin": "gǔ zì páng"
   },
   {
     "no": 208,
@@ -2077,7 +2491,9 @@
     "pinyin": "shǔ",
     "meaning": "rat",
     "strokes": 13,
-    "frequency": 92
+    "frequency": 92,
+    "name_simplified": "鼠字旁",
+    "name_pinyin": "shǔ zì páng"
   },
   {
     "no": 209,
@@ -2087,7 +2503,9 @@
     "pinyin": "bí",
     "meaning": "nose",
     "strokes": 14,
-    "frequency": 49
+    "frequency": 49,
+    "name_simplified": "鼻字旁",
+    "name_pinyin": "bí zì páng"
   },
   {
     "no": 210,
@@ -2097,7 +2515,9 @@
     "pinyin": "qí",
     "meaning": "even",
     "strokes": 14,
-    "frequency": 18
+    "frequency": 18,
+    "name_simplified": "齐字旁",
+    "name_pinyin": "qí zì páng"
   },
   {
     "no": 211,
@@ -2107,7 +2527,9 @@
     "pinyin": "chǐ",
     "meaning": "tooth",
     "strokes": 15,
-    "frequency": 162
+    "frequency": 162,
+    "name_simplified": "齿字旁",
+    "name_pinyin": "chǐ zì páng"
   },
   {
     "no": 212,
@@ -2117,7 +2539,9 @@
     "pinyin": "lóng",
     "meaning": "dragon",
     "strokes": 16,
-    "frequency": 14
+    "frequency": 14,
+    "name_simplified": "龙字旁",
+    "name_pinyin": "lóng zì páng"
   },
   {
     "no": 213,
@@ -2127,7 +2551,9 @@
     "pinyin": "guī",
     "meaning": "turtle",
     "strokes": 16,
-    "frequency": 24
+    "frequency": 24,
+    "name_simplified": "龟字旁",
+    "name_pinyin": "guī zì páng"
   },
   {
     "no": 214,
@@ -2137,6 +2563,8 @@
     "pinyin": "yuè",
     "meaning": "flute",
     "strokes": 17,
-    "frequency": 19
+    "frequency": 19,
+    "name_simplified": "龠字旁",
+    "name_pinyin": "yuè zì páng"
   }
 ]

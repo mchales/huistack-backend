@@ -38,8 +38,29 @@ class Radical(models.Model):
         help_text="The simplified Chinese form"
     )
     
-    pinyin = models.CharField(max_length=32)
+    # --- New Fields Start ---
+    name_simplified = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+        help_text="The colloquial name (e.g., '言字旁' or '宝盖头')"
+    )
+
+    name_pinyin = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        help_text="Pinyin for the colloquial name (e.g., 'yán zì páng')"
+    )
+    # --- New Fields End ---
+
+    pinyin = models.CharField(
+        max_length=32,
+        help_text="Pinyin for the character itself (e.g., 'yán')"
+    )
+    
     english = models.CharField(max_length=128)
+    
     stroke_count = models.PositiveSmallIntegerField()
     
     frequency = models.PositiveIntegerField(
@@ -70,9 +91,11 @@ class Radical(models.Model):
 
     def __str__(self):
         # Example output: "Radical #149: 讠 (Traditional: 言)"
+        base_str = f"Radical #{self.kangxi_number}: {self.character}"
+        
         if self.character != self.traditional_character:
-            return f"Radical #{self.kangxi_number}: {self.character} (Traditional: {self.traditional_character})"
-        return f"Radical #{self.kangxi_number}: {self.character}"
+            return f"{base_str} (Traditional: {self.traditional_character})"
+        return base_str
 
 
 class Character(models.Model):
@@ -87,10 +110,20 @@ class Character(models.Model):
 
     stroke_count = models.PositiveIntegerField(null=True, blank=True)
     
-    radicals = models.ManyToManyField(
-        'Radical', 
-        related_name='characters', 
-        blank=True
+    main_radical = models.ForeignKey(
+        'Radical',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='main_radical',
+        help_text="The main radical used to classify this character"
+    )
+
+    other_radicals = models.ManyToManyField(
+        'Radical',
+        related_name='other_radicals',
+        blank=True,
+        help_text="Additional radicals present in the graphical form of this character"
     )
 
     def __str__(self):
@@ -101,7 +134,7 @@ class Lemma(models.Model):
     One row per headword (trad/simp pair).
     """
     traditional = models.CharField(max_length=64, db_index=True)
-    simplified = models.CharField(max_length=64, db_index=True)
+    simplified = models.CharField(max_length=64, db_index=True, unique=True)
     
     pinyin_numbers = models.CharField(
         max_length=128,
